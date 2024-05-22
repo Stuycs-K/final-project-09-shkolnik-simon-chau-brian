@@ -13,9 +13,9 @@ info
 
 ## GROUP MEMBER 2
 
-### date x
+### date 5/22/2024
 
-info
+Started taking notes on fourier transformations in presentation and researching
 
 ### date y
 
