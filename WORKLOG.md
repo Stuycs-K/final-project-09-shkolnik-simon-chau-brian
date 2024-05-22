@@ -11,11 +11,11 @@ info
 info
 
 
-## GROUP MEMBER 2
+## Simon Shkolnik
 
-### date x
+### 5/22/2024
 
-info
+Implemented audio reading & basic spectrogram
 
 ### date y
 
