@@ -15,7 +15,7 @@ info
 
 ### date 5/22/2024
 
-Started taking notes on fourier transformations in presentation and researching
+Started taking notes on research of fourier transformations with audio stegnoraphy in presentation and worked on README
 
 ### date y
 
