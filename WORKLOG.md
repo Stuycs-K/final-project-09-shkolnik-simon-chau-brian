@@ -16,6 +16,6 @@ info
 
 Started taking notes on research of fourier transformations with audio stegnoraphy in presentation and worked on README
 
-### date y
+### 5/23/2024
 
-info
+Started work on encoding text into audio by transforming string into byte array and using stft to split the audio
