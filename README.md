@@ -7,6 +7,10 @@ Brian Chau and Simon Shkolnik
 The project focuses on using Fourier Transformations in audio stegnoraphy. 
 
 ## Instructions
-The library used in this program are **scipy** and **numpy**<br>
-To install scipy: `python -m pip install scipy`<br>
-To install numpy: `pip install numpy`
+The library used in this program are:
+- **numpy**: vector math
+- **audiofile**: audio reading and writing
+- **scipy**: signal processing
+- **matplotlib**: plotting / visualising
+
+To install requirements: `python -m pip install -r requirements.txt`
