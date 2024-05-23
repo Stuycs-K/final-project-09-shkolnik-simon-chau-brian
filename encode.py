@@ -9,16 +9,17 @@ signal = sum(signal)
 
 file = open("testfile.txt", "r")
 byteArray = bytearray(file.read(), "utf-8")
-# for x in byteArray:
-#     print(int(x))
 
 i = 0
 portion = signal[sampling_rate * 0 : sampling_rate * 20]
 while(i * 20 < len(byteArray)):
     f, t, Zxx = stft(portion, fs = sampling_rate, nperseg = 4096, noverlap = 0, nfft = 8192)
     Zxx = np.absolute(Zxx)
-    print(f)
-    print(t)
-    # for j in len(Zxx):
-    #     Zxx[j] += 10000 + byteArray[i * 20 + j]
+    nextbyte = 0
+    for j in Zxx:
+        if(nextbyte < len(byteArray)):
+            j[216] += 25000 + int(byteArray[nextbyte])
+        nextbyte += 1
+    for x in Zxx:
+        print(x[216])
     i += 1  
