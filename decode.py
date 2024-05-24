@@ -6,7 +6,6 @@ import audiofile
 
 signal, sampling_rate = audiofile.read("modified_sample_input.mp3")
 # print(f"Sampling rate: {sampling_rate}hz")
-print(signal)
 bitArray = [255] * 1000
 i = 0
 while(len(signal) < 20):
@@ -20,9 +19,11 @@ while(len(signal) < 20):
         f_index = np.argmin(np.abs(j - 20000))
         if(Zxx[f_index] == 19000):
             bitArray[nextbit] = 0
+            nextbit += 1
         if(Zxx[f_index == 20000]):
             bitArray[nextbit] = 1
-        nextbit += 1
+            nextbit += 1
+        print(bitArray[nextbit])
         
     # Code with minimal libraries 
     # for j in Zxx:
