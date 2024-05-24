@@ -4,19 +4,28 @@ import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
 
-FILE_NAME = "sample_input.mp3"
-SECTION = (20, 40)
+AUDIO_FILE_NAME = "sample_input.mp3"
+TEXT_FILE_NAME = "testfile.txt"
 
-signal, sampling_rate = audiofile.read(FILE_NAME)
+SECTION = (20, 40)
+NPERSEG = 4096
+NFFT = 8192
+
+FREQ_1 = 20000
+FREQ_0 = 19000
+AMPLITUDE = 0.1
+
+signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
 print(f"Sampling rate: {sampling_rate}hz")
 
+#TODO: only sum signal if theres more than 1 channel, bug otherwise
 signal = sum(signal) #combine all channels in audio file
 print(f"Audio length: {len(signal) / sampling_rate:.2f}s, taking segment from {SECTION[0]}s-{SECTION[1]}s")
-signal = signal[sampling_rate * 20 : sampling_rate * 40] #take only section of audio
+signal = signal[sampling_rate * SECTION[0] : sampling_rate * SECTION[1]] #take only section of audio
 
 def get_stft(signal):
   #f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = 4096, noverlap = 4096 - 128, nfft = 8192)
-  f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = 4096, noverlap = 0, nfft = 8192)
+  f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = NPERSEG, noverlap = 0, nfft = NFFT)
   Zxx = np.absolute(Zxx) #we only care about the magnitude of each frequency, not shift
 
   #chop of frequencies > 10000
@@ -35,18 +44,18 @@ ax1.set_ylabel("Frequency [Hz]")
 ax1.set_xlabel("Time [sec]")
 
 #encoding
-bin_data = string_to_bin(open("testfile.txt", "rb").read())
+bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read())
 
 for i, v in enumerate(bin_data):
   if v == "1":
-    f = 20000
+    freq = FREQ_1
   else:
-    f = 19000
+    freq = FREQ_0
 
-  x = np.linspace(0, f * 2 * np.pi * (4096 / sampling_rate), 4096)
+  x = np.linspace(0, freq * 2 * np.pi * (NPERSEG / sampling_rate), NPERSEG)
   x = np.sin(x)
 
-  signal[i * 4096 : (i + 1) * 4096] += x / 10
+  signal[i * NPERSEG : (i + 1) * NPERSEG] += x * AMPLITUDE
 
 f, t, Zxx = get_stft(signal)
 ax2.pcolormesh(t, f, np.abs(Zxx), shading="gouraud")
@@ -54,6 +63,6 @@ ax2.set_title("Spectrogram (after encoding)")
 ax2.set_ylabel("Frequency [Hz]")
 ax2.set_xlabel("Time [sec]")
 
-audiofile.write("modified_" + FILE_NAME, signal, sampling_rate)
+audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
 
 plt.show()

@@ -6,9 +6,9 @@
 
 Implemented audio reading & basic spectrogram
 
-### date y
+### 5/24/2024
 
-info
+Added audio encoding, cleaned up main.py, should be ready to start working on decoding
 
 ## GROUP MEMBER 2
 
@@ -22,4 +22,4 @@ Started work on encoding text into audio by transforming string into byte array 
 
 ### 5/24/2024
 
- Transformed my encoder into a decoder. Messed around with finding frequencies not using a numpy library. Then used a numpy library to then get the chosen frequencies that represent 0s(19000), and 1s(20000)
+Transformed my encoder into a decoder. Messed around with finding frequencies not using a numpy library. Then used a numpy library to then get the chosen frequencies that represent 0s(19000), and 1s(20000)
