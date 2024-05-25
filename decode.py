@@ -6,6 +6,11 @@ import audiofile
 
 signal, sampling_rate = audiofile.read("modified_sample_input.mp3")
 # print(f"Sampling rate: {sampling_rate}hz")
+try:
+    signal[1][0]
+    signal = sum(signal)
+except:
+    print("Only one channel")
 bitArray = [255] * 1000
 i = 0
 while(len(signal) > 20):
@@ -14,9 +19,13 @@ while(len(signal) > 20):
     f, t, Zxx = stft(portion, fs = sampling_rate, nperseg = 4096, noverlap = 0, nfft = 8192)
     Zxx = np.absolute(Zxx)
     nextbit = 0
-    f_index = np.argmin(np.abs(Zxx[0] - 19000))
-    high_index = np.argmin(np.abs(Zxx[0] - 20000))
-    print(Zxx[0][f_index])
+    for x in Zxx[0]:
+        print(x)
+
+    # f_index = np.argmin(np.abs(Zxx[0] - 19000))
+    # high_index = np.argmin(np.abs(Zxx[0] - 20000))
+    # print(Zxx[0][f_index])
+
     # if(frequency < 20000 and frequency >= 19000):
     #     bitArray[nextbit] = 0
     #     nextbit += 1
