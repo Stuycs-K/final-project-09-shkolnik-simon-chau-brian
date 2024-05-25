@@ -4,15 +4,13 @@ from scipy.signal import istft
 import matplotlib.pyplot as plt
 import audiofile
 
-signal, sampling_rate = audiofile.read("sample_input.mp3")
-# print(f"Sampling rate: {sampling_rate}hz")
+signal, sampling_rate = audiofile.read("modified_sample_input.mp3")
 try:
     signal[1][0]
     signal = sum(signal)
 except:
     print("Only one channel")
 bitArray = [3] * 10000
-i = 0
 
 while(len(signal) > 20):
     portion = signal[sampling_rate * 0 : sampling_rate * 20]
@@ -21,26 +19,29 @@ while(len(signal) > 20):
     Zxx = np.absolute(Zxx)
     nextbit = 0
     oneindex = np.argmin(np.abs(f - 20000))
-    zeroindex = np.argmin(np.abs(f - 20000))
-    # Zxx = np.transpose(Zxx)
-    Zxx[oneindex].sort()
-    Zxx[zeroindex].sort()
-    for x in Zxx[zeroindex]:
-        print(x)
-    # for x in f:
-    #     print(x)
+    zeroindex = np.argmin(np.abs(f - 19000))
+    # Zxx[oneindex].sort()
+    # Zxx[zeroindex].sort()
     # oneStartIndex = 1
     # zeroStartIndex = 1
-    # print(len(Zxx[oneindex]))
-    # while (oneStartIndex < 217 and zeroStartIndex < 217):
-    #     if(Zxx[oneindex][oneStartIndex] < Zxx[zeroindex][zeroStartIndex]):
-    #         bitArray[nextbit] = 1
-    #         oneStartIndex += 1
-    #     else:
-    #         bitArray[nextbit] = 0
-    #         zeroStartIndex += 1
-    #     nextbit += 1
-    # i += 1
+    index = 0
+    while (index < 217):
+        if(Zxx[oneindex][oneStartIndex] < Zxx[zeroindex][zeroStartIndex]):
+            bitArray[nextbit] = 1
+            oneStartIndex += 1
+            nextbit += 1
+        elif(Zxx[oneindex][oneStartIndex] > Zxx[zeroindex][zeroStartIndex]):
+            bitArray[nextbit] = 0
+            zeroStartIndex += 1
+            nextbit += 1
+
+
+        # if(Zxx[oneindex][index] < Zxx[zeroindex][index]):
+        #     bitArray[nextbit] = 1
+        # elif(Zxx[oneindex][index] > Zxx[zeroindex][index]):
+        #     bitArray[nextbit] = 0
+        # index += 1
+        # nextbit += 1
 
 for x in bitArray:
     if(x != 3):

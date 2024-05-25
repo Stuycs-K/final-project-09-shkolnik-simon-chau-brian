@@ -23,3 +23,7 @@ Started work on encoding text into audio by transforming string into byte array 
 ### 5/24/2024
 
 Transformed my encoder into a decoder. Messed around with finding frequencies not using a numpy library. Then used a numpy library to then get the chosen frequencies that represent 0s(19000), and 1s(20000)
+
+### 5/25/2024
+
+Continued messing with Zxx array and figured out more about it. Was able to get bits although they seem to be in the wrong order so still working on understanding the array and on how to get the decoder to work.
