@@ -1,6 +1,10 @@
 import numpy as np
 from scipy.signal import stft
+
+#import matplotlib
+#matplotlib.use("GTK4Agg") 
 import matplotlib.pyplot as plt
+
 import audiofile
 from utils import string_to_bin
 
@@ -11,8 +15,8 @@ SECTION = (20, 40)
 NPERSEG = 4096
 NFFT = 8192
 
-FREQ_1 = 20000
-FREQ_0 = 19000
+FREQ_1 = 18050
+FREQ_0 = 18000
 AMPLITUDE = 0.1
 
 signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
@@ -44,6 +48,7 @@ ax1.set_ylabel("Frequency [Hz]")
 ax1.set_xlabel("Time [sec]")
 
 #encoding
+"""
 bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read())
 
 for i, v in enumerate(bin_data):
@@ -51,6 +56,17 @@ for i, v in enumerate(bin_data):
     freq = FREQ_1
   else:
     freq = FREQ_0
+
+  x = np.linspace(0, freq * 2 * np.pi * (NPERSEG / sampling_rate), NPERSEG)
+  x = np.sin(x)
+
+  signal[i * NPERSEG : (i + 1) * NPERSEG] += x * AMPLITUDE
+"""
+
+data = open(TEXT_FILE_NAME, "rb").read()
+
+for i, v in enumerate(data):
+  freq = FREQ_0 + (FREQ_1 - FREQ_0) * v
 
   x = np.linspace(0, freq * 2 * np.pi * (NPERSEG / sampling_rate), NPERSEG)
   x = np.sin(x)
