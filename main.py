@@ -38,10 +38,11 @@ def get_stft(signal):
 _, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
 
 f, t, Zxx = get_stft(signal)
-ax1.pcolormesh(t, f, np.abs(Zxx), shading="gouraud")
+ax1.pcolorfast(t, f, np.abs(Zxx))
 ax1.set_title("Spectrogram (before encoding)")
 ax1.set_ylabel("Frequency [Hz]")
 ax1.set_xlabel("Time [sec]")
+ax1.vlines(t, FREQ_0, FREQ_1, "w")
 
 #encoding
 bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read())
@@ -57,11 +58,14 @@ for i, v in enumerate(bin_data):
 
   signal[i * NPERSEG : (i + 1) * NPERSEG] += x * AMPLITUDE
 
+  ax2.hlines(freq, t[i], t[i + 1], "r")
+
 f, t, Zxx = get_stft(signal)
-ax2.pcolormesh(t, f, np.abs(Zxx), shading="gouraud")
+ax2.pcolorfast(t, f, np.abs(Zxx))
 ax2.set_title("Spectrogram (after encoding)")
 ax2.set_ylabel("Frequency [Hz]")
 ax2.set_xlabel("Time [sec]")
+ax2.vlines(t, FREQ_0, FREQ_1, "w")
 
 audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
 
