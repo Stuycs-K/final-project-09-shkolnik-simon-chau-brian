@@ -20,18 +20,26 @@ while(len(signal) > 20):
     nextbit = 0
     oneindex = np.argmin(np.abs(f - 20000))
     zeroindex = np.argmin(np.abs(f - 19000))
-    # Zxx[oneindex].sort()
-    # Zxx[zeroindex].sort()
-    # oneStartIndex = 1
-    # zeroStartIndex = 1
-    index = 0
-    while (index < 217):
+
+    Zxx[oneindex].sort()
+    Zxx[zeroindex].sort()
+
+
+    # for x in Zxx[zeroindex]:
+    #     print(x)
+
+    oneStartIndex = 1
+    zeroStartIndex = 1
+    # index = 0
+    while (oneStartIndex < len(Zxx[oneStartIndex]) - 1 or zeroStartIndex < len(Zxx[zeroStartIndex]) - 1):
+        if(oneStartIndex == 217):
+            break
         if(Zxx[oneindex][oneStartIndex] < Zxx[zeroindex][zeroStartIndex]):
-            bitArray[nextbit] = 1
+            bitArray[nextbit] = 0
             oneStartIndex += 1
             nextbit += 1
         elif(Zxx[oneindex][oneStartIndex] > Zxx[zeroindex][zeroStartIndex]):
-            bitArray[nextbit] = 0
+            bitArray[nextbit] = 1
             zeroStartIndex += 1
             nextbit += 1
 
@@ -43,8 +51,9 @@ while(len(signal) > 20):
         # index += 1
         # nextbit += 1
 
-for x in bitArray:
-    if(x != 3):
-        print(x)
+# for x in bitArray:
+#     if(x != 3):
+#         print(x)
+
 decodedString = ""
 
