@@ -11,10 +11,6 @@ SECTION = (20, 40)
 NPERSEG = 4096
 NFFT = 8192
 
-FREQ_1 = 20000
-FREQ_0 = 19000
-AMPLITUDE = 0.1
-
 signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
 try:
     signal[1][0]
@@ -22,9 +18,20 @@ try:
 except:
     print("Only one channel")
 
-string = open(TEXT_FILE_NAME, "rb").read()
-binary = string_to_bin(string)
+segements = signal/NFFT
+signal.resize(NFFT * segements)
+print(signal)
+# string = open(TEXT_FILE_NAME, "rb").read()
+# binary = string_to_bin(string)
 
-f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = NPERSEG, noverlap = 0, nfft = NFFT)
-Zxx = np.absolute(Zxx)
+# f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = NPERSEG, noverlap = 0, nfft = NFFT)
+# Zxx = np.absolute(Zxx)
+
+# phaseShifts = [0]*(len(string) * 8)
+# index = 0
+# for i, v in enumerate(binary):
+#     if v == '0': phaseShifts[index] = np.pi/2
+#     elif v == '1': phaseShifts[index] = -np.pi/2
+#     index += 1
+
 
