@@ -25,10 +25,14 @@ for i, v in enumerate(binary):
 
 sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
+signal = np.transpose(signal)
+signal = sum(signal)
 chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
 numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
 
-signal.resize(numOfChuncks * chunkSize, refcheck=False)
+print(signal.shape)
+
+signal.resize(numOfChuncks*chunkSize, refcheck=False)
 signal = signal[np.newaxis]
 
 chunks = signal.reshape((numOfChuncks, chunkSize))
