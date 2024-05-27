@@ -1,10 +1,11 @@
 import numpy as np
 from scipy.signal import stft
+from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
 
-AUDIO_FILE_NAME = "sample_input.mp3"
+AUDIO_FILE_NAME = "sample_input.wav"
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)
@@ -14,7 +15,7 @@ NFFT = 8192
 string = open(TEXT_FILE_NAME, "rb").read()
 binary = string_to_bin(string)
 stringlen = len(string) * 8
-phaseShifts = [0]*stringlen
+phaseShifts = np.empty(stringlen)
 index = 0
 for i, v in enumerate(binary):
     if v == '0': phaseShifts[index] = np.pi/2
@@ -22,12 +23,31 @@ for i, v in enumerate(binary):
     index += 1
 
 
-signal1, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
-
+sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
+signal = signal.copy()
 chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
-numOfChuncks = int(np.ceil(signal1.shape[0]/chunkSize))
-signal = signal1.copy()
+numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
 
-signal.resize(numOfChuncks*chunkSize, refcheck=False)
+signal.resize(numOfChuncks * chunkSize, refcheck=False)
 signal = signal[np.newaxis]
 
+chunks = signal.reshape((numOfChuncks, chunkSize))
+
+chunks = np.fft.fft(chunks)
+magnitudes = np.abs(chunks)
+phases = np.angle(chunks)
+phaseDiff = np.diff(phases, axis=0)
+
+halfChunk = chunkSize//2
+phases[0, halfChunk - stringlen: halfChunk] = phaseShifts
+phases[0, halfChunk + 1: halfChunk + 1 + stringlen] = -phaseShifts[::-1]
+
+
+for i in range(0, len(phases)-1):
+    phases[i] = phases[i] + phaseDiff[i]
+
+chunks = (magnitudes * np.exp(1j * phases))
+chunks = np.fft.ifft(chunks).real
+
+signal[0] = chunks.ravel().astype(np.int16) 
+audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
