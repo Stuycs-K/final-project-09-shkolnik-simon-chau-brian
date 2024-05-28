@@ -35,3 +35,7 @@ Continued messing with Zxx array and figured out more about it. Was able to get 
 ### 5/26/2024
 
 Updated the presentation to add more of my research and add more clarification on the overview to the Readme
+
+### 5/27/2024
+
+Spent time researching and then creating phase encoding audio stegnography.
