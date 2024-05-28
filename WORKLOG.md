@@ -10,6 +10,10 @@ Implemented audio reading & basic spectrogram
 
 Added audio encoding, cleaned up main.py, should be ready to start working on decoding
 
+### 5/28/2024
+
+Rewrote scipy STFT because it had some weird behavior where it would blend in adjacent chunks
+
 ## GROUP MEMBER 2
 
 ### 5/22/2024
