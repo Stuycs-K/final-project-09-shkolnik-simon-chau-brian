@@ -3,13 +3,22 @@ from scipy.signal import stft
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import audiofile
+from utils import string_to_bin
 
-AUDIO_FILE_NAME = "sample_input.wav"
+AUDIO_FILE_NAME = "modified_sample_input.mp3"
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)
 NPERSEG = 4096
 NFFT = 8192
 
-sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
+signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
+print(signal)
+
+string = open(TEXT_FILE_NAME, "rb").read()
+binary = string_to_bin(string)
+stringlen = len(string) * 8
+chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
+numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
+

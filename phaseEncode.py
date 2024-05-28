@@ -23,10 +23,10 @@ for i, v in enumerate(binary):
     index += 1
 
 
-sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
+signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
 signal = np.transpose(signal)
-signal = sum(signal)
+signal = np.sum(signal, axis=1)
 chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
 numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
 
