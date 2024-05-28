@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
 
-AUDIO_FILE_NAME = "sample_input.wav"
+AUDIO_FILE_NAME = "brilliant.wav"
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)
@@ -23,14 +23,17 @@ for i, v in enumerate(binary):
     index += 1
 
 
-signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
+sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
 signal = np.transpose(signal)
-signal = np.sum(signal, axis=1)
+signal = signal.copy()
+try:
+    signal[1][0]
+    signal = sum(signal)
+except:
+    print("Only one channel")
 chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
 numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
-
-print(signal.shape)
 
 signal.resize(numOfChuncks*chunkSize, refcheck=False)
 signal = signal[np.newaxis]
@@ -41,17 +44,15 @@ chunks = np.fft.fft(chunks)
 magnitudes = np.abs(chunks)
 phases = np.angle(chunks)
 phaseDiff = np.diff(phases, axis=0)
-
 halfChunk = chunkSize//2
 phases[0, halfChunk - stringlen: halfChunk] = phaseShifts
 phases[0, halfChunk + 1: halfChunk + 1 + stringlen] = -phaseShifts[::-1]
 
-
-for i in range(0, len(phases)-1):
-    phases[i] = phases[i] + phaseDiff[i]
+for i in range(1, len(phases)):
+    phases[i] = phases[i-1] + phaseDiff[i-1]
 
 chunks = (magnitudes * np.exp(1j * phases))
 chunks = np.fft.ifft(chunks).real
 
 signal[0] = chunks.ravel().astype(np.int16) 
-audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
+wavfile.write("modified_" + AUDIO_FILE_NAME, sampling_rate, signal.T)
