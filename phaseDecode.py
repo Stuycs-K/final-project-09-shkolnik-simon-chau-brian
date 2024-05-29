@@ -33,17 +33,17 @@ ax1.hlines(f[oneindex], t[0], t[-1])
 
 plt.show()
 """
-
-bitArray = np.where(
-    np.sum(
-        Zxx[oneindex[0] : oneindex[1], :NUM_BYTES * 8 + 1],
-        axis=0
-    ) > np.sum(
-        Zxx[zeroindex[0] : zeroindex[1], :NUM_BYTES * 8 + 1],
-        axis=0
-    ),
-    1, 0
-)
+frequency = Zxx[FREQ_1]
+# bitArray = np.where(
+#     np.sum(
+#         Zxx[oneindex[0] : oneindex[1], :NUM_BYTES * 8 + 1],
+#         axis=0
+#     ) > np.sum(
+#         Zxx[zeroindex[0] : zeroindex[1], :NUM_BYTES * 8 + 1],
+#         axis=0
+#     ),
+#     1, 0
+# )
 
 print(bitArray)
 

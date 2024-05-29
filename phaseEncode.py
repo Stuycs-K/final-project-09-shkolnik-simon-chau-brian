@@ -53,6 +53,5 @@ for i in range(1, len(phases)):
 
 chunks = (magnitudes * np.exp(1j * phases))
 chunks = np.fft.ifft(chunks).real
-
 signal[0] = chunks.ravel().astype(np.int16) 
 wavfile.write("modified_" + AUDIO_FILE_NAME, sampling_rate, signal.T)
