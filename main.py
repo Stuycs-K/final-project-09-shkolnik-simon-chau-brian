@@ -5,7 +5,7 @@ import audiofile
 from utils import read_audio, string_to_bin, get_stft, NPERSEG, NFFT
 import numpy as np
 
-AUDIO_FILE_NAME = "sample_input.mp3"
+AUDIO_FILE_NAME = "sample_input.wav"
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)
