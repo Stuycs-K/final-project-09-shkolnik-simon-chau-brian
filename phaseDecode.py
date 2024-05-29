@@ -33,7 +33,7 @@ ax1.hlines(f[oneindex], t[0], t[-1])
 
 plt.show()
 """
-frequency = Zxx[FREQ_1]
+frequency = np.angle(Zxx[FREQ_1])
 # bitArray = np.where(
 #     np.sum(
 #         Zxx[oneindex[0] : oneindex[1], :NUM_BYTES * 8 + 1],
