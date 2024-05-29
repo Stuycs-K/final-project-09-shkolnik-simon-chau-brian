@@ -4,21 +4,48 @@ from scipy.signal import istft
 import matplotlib.pyplot as plt
 from utils import read_audio, get_stft
 
-NUM_BYTES = 6 #todo: calculate from audio
-signal, sampling_rate = read_audio("modified_sample_input.mp3")
+NUM_BYTES = 23 #todo: calculate from audio
+signal, sampling_rate = read_audio("modified_sample_input.wav")
 
 f, t, Zxx = get_stft(signal, sampling_rate)
 
-oneindex = (np.argmin(np.abs(f - 20000 - 50)), np.argmin(np.abs(f - 20000 + 50)))
-zeroindex = (np.argmin(np.abs(f - 19000 - 50)), np.argmin(np.abs(f - 19000 + 50)))
-print(oneindex, zeroindex)
-bitArray = []
+FREQ_1 = 20000
+FREQ_0 = 19000
+FREQ_SPREAD = 50
 
-for i in range(NUM_BYTES * 8):
-    if(np.sum(Zxx[oneindex[1] : oneindex[0], i]) > np.sum(Zxx[zeroindex[1] : zeroindex[0], i])):
-        bitArray.append(1)
-    else:
-        bitArray.append(0)
+oneindex = [
+    np.argmin(np.abs(f - (FREQ_1 - FREQ_SPREAD))),
+    np.argmin(np.abs(f - (FREQ_1 + FREQ_SPREAD)))
+]
+zeroindex = [
+    np.argmin(np.abs(f - (FREQ_0 - FREQ_SPREAD))),
+    np.argmin(np.abs(f - (FREQ_0 + FREQ_SPREAD)))
+]
+
+"""
+_, (ax1) = plt.subplots(1, 1)
+
+ax1.pcolorfast(t, f, np.abs(Zxx))
+ax1.set_title("Spectrogram (before encoding)")
+ax1.set_ylabel("Frequency [Hz]")
+ax1.set_xlabel("Time [sec]")
+
+ax1.vlines(t, FREQ_0, FREQ_1, "w")
+ax1.hlines(f[oneindex], t[0], t[-1])
+
+plt.show()
+"""
+
+bitArray = np.where(
+    np.sum(
+        Zxx[oneindex[0] : oneindex[1], :NUM_BYTES * 8 + 1],
+        axis=0
+    ) > np.sum(
+        Zxx[zeroindex[0] : zeroindex[1], :NUM_BYTES * 8 + 1],
+        axis=0
+    ),
+    1, 0
+)
 
 print(bitArray)
 
