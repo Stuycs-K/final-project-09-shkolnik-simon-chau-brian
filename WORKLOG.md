@@ -14,6 +14,10 @@ Added audio encoding, cleaned up main.py, should be ready to start working on de
 
 Rewrote scipy STFT because it had some weird behavior where it would blend in adjacent chunks
 
+### 5/29/2024
+
+Fixed decode!!!, helped Brian with phase encoding, removed audio files from git repo
+
 ## GROUP MEMBER 2
 
 ### 5/22/2024
