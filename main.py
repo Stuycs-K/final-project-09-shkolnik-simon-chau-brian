@@ -1,43 +1,26 @@
-import numpy as np
-from scipy.signal import stft
 import matplotlib.pyplot as plt
 import audiofile
-from utils import string_to_bin
+from utils import read_audio, string_to_bin, get_stft, NPERSEG, NFFT
+import numpy as np
 
-AUDIO_FILE_NAME = "sample_input.mp3"
+AUDIO_FILE_NAME = "clipped_sample_input.mp3"
 TEXT_FILE_NAME = "testfile.txt"
 
-SECTION = (20, 40)
-NPERSEG = 4096
-NFFT = 8192
+#SECTION = (20, 40)
 
 FREQ_1 = 20000
 FREQ_0 = 19000
-AMPLITUDE = 0.1
+AMPLITUDE = .2
 
-signal, sampling_rate = audiofile.read(AUDIO_FILE_NAME)
+signal, sampling_rate = read_audio(AUDIO_FILE_NAME)
 print(f"Sampling rate: {sampling_rate}hz")
 
-#TODO: only sum signal if theres more than 1 channel, bug otherwise
-signal = sum(signal) #combine all channels in audio file
-print(f"Audio length: {len(signal) / sampling_rate:.2f}s, taking segment from {SECTION[0]}s-{SECTION[1]}s")
-signal = signal[sampling_rate * SECTION[0] : sampling_rate * SECTION[1]] #take only section of audio
+print(f"Audio length: {len(signal) / sampling_rate:.2f}s")
+#signal = signal[sampling_rate * SECTION[0] : sampling_rate * SECTION[1]] #take only section of audio
 
-def get_stft(signal):
-  #f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = 4096, noverlap = 4096 - 128, nfft = 8192)
-  f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = NPERSEG, noverlap = 0, nfft = NFFT)
-  Zxx = np.absolute(Zxx) #we only care about the magnitude of each frequency, not shift
+_, (ax1, ax2, ax3) = plt.subplots(1, 3)
 
-  #chop of frequencies > 10000
-  #f_indexes = f < 250000
-  #f = f[f_indexes]
-  #Zxx = Zxx[f_indexes]
-
-  return f, t, Zxx
-
-_, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
-
-f, t, Zxx = get_stft(signal)
+f, t, Zxx = get_stft(signal, sampling_rate)
 ax1.pcolorfast(t, f, np.abs(Zxx))
 ax1.set_title("Spectrogram (before encoding)")
 ax1.set_ylabel("Frequency [Hz]")
@@ -53,14 +36,22 @@ for i, v in enumerate(bin_data):
   else:
     freq = FREQ_0
 
-  x = np.linspace(0, freq * 2 * np.pi * (NPERSEG / sampling_rate), NPERSEG)
+  x = np.linspace(0, freq * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
   x = np.sin(x)
 
-  signal[i * NPERSEG : (i + 1) * NPERSEG] += x * AMPLITUDE
+  signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
+  
+  if v == "1":
+    ax2.vlines((i * NPERSEG) / sampling_rate, freq + 10, freq + 50, "g")
+    ax2.vlines(((i + 1) * NPERSEG) / sampling_rate, freq + 10, freq + 50, "r")
+  else:
+    ax2.vlines((i * NPERSEG) / sampling_rate, freq - 50, freq - 10, "g")
+    ax2.vlines(((i + 1) * NPERSEG) / sampling_rate, freq - 50, freq - 10, "r")
 
   ax2.hlines(freq, t[i], t[i + 1], "r")
+  ax3.vlines((i * NPERSEG) / sampling_rate, 0, 1, "r" if v == "1" else "m")
 
-f, t, Zxx = get_stft(signal)
+f, t, Zxx = get_stft(signal, sampling_rate)
 ax2.pcolorfast(t, f, np.abs(Zxx))
 ax2.set_title("Spectrogram (after encoding)")
 ax2.set_ylabel("Frequency [Hz]")
@@ -68,5 +59,10 @@ ax2.set_xlabel("Time [sec]")
 ax2.vlines(t, FREQ_0, FREQ_1, "w")
 
 audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
+
+ax3.plot(t, Zxx[np.argmin(np.abs(f - FREQ_1))], "b")
+ax3.plot(t, Zxx[np.argmin(np.abs(f - FREQ_0))], "g")
+ax3.set_ylabel("Strength of frequency")
+ax3.set_xlabel("Time [sec]")
 
 plt.show()

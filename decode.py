@@ -2,54 +2,31 @@ import numpy as np
 from scipy.signal import stft
 from scipy.signal import istft
 import matplotlib.pyplot as plt
-import audiofile
+from main import get_stft
+from utils import read_audio
 
-signal, sampling_rate = audiofile.read("modified_sample_input.mp3")
-try:
-    signal[1][0]
-    signal = sum(signal)
-except:
-    print("Only one channel")
-bitArray = [3] * 10000
+NUM_BYTES = 6 #todo: calculate from audio
+signal, sampling_rate = read_audio("modified_clipped_sample_input.mp3")
 
-while(len(signal) > 20):
-    portion = signal[sampling_rate * 0 : sampling_rate * 20]
-    signal = signal[sampling_rate * 20 : sampling_rate * 40]
-    f, t, Zxx = stft(portion, fs = sampling_rate, nperseg = 4096, noverlap = 0, nfft = 8192)
-    Zxx = np.absolute(Zxx)
-    nextbit = 0
-    oneindex = np.argmin(np.abs(f - 20000))
-    zeroindex = np.argmin(np.abs(f - 19000))
+f, t, Zxx = get_stft(signal)
 
-    Zxx[oneindex].sort()
-    Zxx[zeroindex].sort()
+oneindex = np.argmin(np.abs(f - 20000))
+zeroindex = np.argmin(np.abs(f - 19000))
 
+bitArray = []
 
-    # for x in Zxx[zeroindex]:
-    #     print(x)
+for i in range(NUM_BYTES * 8):
+    if(Zxx[oneindex][i] > Zxx[zeroindex][i]):
+        bitArray.append(1)
+    else:
+        bitArray.append(0)
 
-    oneStartIndex = 1
-    zeroStartIndex = 1
-    # index = 0
-    while (oneStartIndex < len(Zxx[oneStartIndex]) - 1 or zeroStartIndex < len(Zxx[zeroStartIndex]) - 1):
-        if(oneStartIndex == 217):
-            break
-        if(Zxx[oneindex][oneStartIndex] < Zxx[zeroindex][zeroStartIndex]):
-            bitArray[nextbit] = 0
-            oneStartIndex += 1
-            nextbit += 1
-        elif(Zxx[oneindex][oneStartIndex] > Zxx[zeroindex][zeroStartIndex]):
-            bitArray[nextbit] = 1
-            zeroStartIndex += 1
-            nextbit += 1
-
-
-        # if(Zxx[oneindex][index] < Zxx[zeroindex][index]):
-        #     bitArray[nextbit] = 1
-        # elif(Zxx[oneindex][index] > Zxx[zeroindex][index]):
-        #     bitArray[nextbit] = 0
-        # index += 1
-        # nextbit += 1
+    # if(Zxx[oneindex][index] < Zxx[zeroindex][index]):
+    #     bitArray[nextbit] = 1
+    # elif(Zxx[oneindex][index] > Zxx[zeroindex][index]):
+    #     bitArray[nextbit] = 0
+    # index += 1
+    # nextbit += 1
 
 # for x in bitArray:
 #     if(x != 3):
@@ -57,3 +34,13 @@ while(len(signal) > 20):
 
 decodedString = ""
 
+for i in range(NUM_BYTES):
+    current_byte = 0
+
+    for j in range(8):
+        if bitArray[8 * i + (7 - j)]:
+            current_byte += 2 ** j
+
+    decodedString += chr(current_byte)
+
+print(decodedString)
