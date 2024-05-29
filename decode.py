@@ -8,6 +8,7 @@ NUM_BYTES = 23 #todo: calculate from audio
 signal, sampling_rate = read_audio("modified_sample_input.wav")
 
 f, t, Zxx = get_stft(signal, sampling_rate)
+Zxx = np.absolute(Zxx)
 
 FREQ_1 = 20000
 FREQ_0 = 19000

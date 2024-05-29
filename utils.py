@@ -29,7 +29,6 @@ def get_stft(signal, sampling_rate):
   t = np.arange(0, len(signal), NPERSEG) / sampling_rate
   Zxx = fft(t_signal, NFFT, axis=1)[:, :NFFT // 2]
 
-  Zxx = np.absolute(Zxx)
   Zxx = np.transpose(Zxx)
 
   t = t[:-1]
