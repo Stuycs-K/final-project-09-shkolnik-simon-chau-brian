@@ -58,6 +58,6 @@ ax2.set_ylabel("Frequency [Hz]")
 ax2.set_xlabel("Time [sec]")
 ax2.vlines(t, FREQ_0, FREQ_1, "w")
 
-audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
+audiofile.write("modified_" + AUDIO_FILE_NAME.replace("mp3", "wav"), signal, sampling_rate)
 
 plt.show()
