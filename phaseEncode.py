@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
 
-AUDIO_FILE_NAME = "brilliant.wav"
+AUDIO_FILE_NAME = "sample_input.wav"
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)
