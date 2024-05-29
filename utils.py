@@ -1,6 +1,6 @@
 import audiofile
 import numpy as np
-from scipy.signal import stft
+from scipy.fft import fft, fftfreq
 
 def string_to_bin(s):
   out = ""
@@ -21,15 +21,19 @@ def read_audio(filename):
 NPERSEG = 4096
 NFFT = 8192
 
-def get_stft(signal, sampling_rate, nperseg = None):
-  #f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = 4096, noverlap = 4096 - 128, nfft = 8192)
-  f, t, Zxx = stft(signal, fs = sampling_rate, nperseg = nperseg or NPERSEG, noverlap = 0, nfft = 8192, padded=True)
-  Zxx = np.absolute(Zxx) #we only care about the magnitude of each frequency, not shift
+def get_stft(signal, sampling_rate):
+  t_signal = np.resize(signal, (len(signal) // NPERSEG) * NPERSEG)
+  t_signal = np.reshape(t_signal, (-1, NPERSEG))
 
-  #chop of frequencies > 10000
-  #f_indexes = f < 250000
-  #f = f[f_indexes]
-  #Zxx = Zxx[f_indexes]
+  f = fftfreq(NFFT, 1 / sampling_rate)[:NFFT // 2]
+  t = np.arange(0, len(signal), NPERSEG) / sampling_rate
+  Zxx = fft(t_signal, NFFT, axis=1)[:, :NFFT // 2]
+
+  Zxx = np.absolute(Zxx)
+  Zxx = np.transpose(Zxx)
+
+  t = t[:-1]
+  Zxx = Zxx[:-1, :]
 
   return f, t, Zxx
 

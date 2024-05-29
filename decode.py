@@ -2,35 +2,25 @@ import numpy as np
 from scipy.signal import stft
 from scipy.signal import istft
 import matplotlib.pyplot as plt
-from main import get_stft
-from utils import read_audio
+from utils import read_audio, get_stft
 
 NUM_BYTES = 6 #todo: calculate from audio
-signal, sampling_rate = read_audio("modified_clipped_sample_input.mp3")
+signal, sampling_rate = read_audio("modified_sample_input.mp3")
 
-f, t, Zxx = get_stft(signal)
+f, t, Zxx = get_stft(signal, sampling_rate)
 
-oneindex = np.argmin(np.abs(f - 20000))
-zeroindex = np.argmin(np.abs(f - 19000))
-
+oneindex = (np.argmin(np.abs(f - 20000 - 50)), np.argmin(np.abs(f - 20000 + 50)))
+zeroindex = (np.argmin(np.abs(f - 19000 - 50)), np.argmin(np.abs(f - 19000 + 50)))
+print(oneindex, zeroindex)
 bitArray = []
 
 for i in range(NUM_BYTES * 8):
-    if(Zxx[oneindex][i] > Zxx[zeroindex][i]):
+    if(np.sum(Zxx[oneindex[1] : oneindex[0], i]) > np.sum(Zxx[zeroindex[1] : zeroindex[0], i])):
         bitArray.append(1)
     else:
         bitArray.append(0)
 
-    # if(Zxx[oneindex][index] < Zxx[zeroindex][index]):
-    #     bitArray[nextbit] = 1
-    # elif(Zxx[oneindex][index] > Zxx[zeroindex][index]):
-    #     bitArray[nextbit] = 0
-    # index += 1
-    # nextbit += 1
-
-# for x in bitArray:
-#     if(x != 3):
-#         print(x)
+print(bitArray)
 
 decodedString = ""
 
