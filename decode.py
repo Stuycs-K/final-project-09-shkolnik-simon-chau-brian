@@ -38,10 +38,10 @@ plt.show()
 """
 
 bitArray = np.where(
-    np.sum(
+    np.max(
         Zxx[oneindex[0] : oneindex[1], :NUM_BYTES * 8 + 1],
         axis=0
-    ) > np.sum(
+    ) > np.max(
         Zxx[zeroindex[0] : zeroindex[1], :NUM_BYTES * 8 + 1],
         axis=0
     ),
