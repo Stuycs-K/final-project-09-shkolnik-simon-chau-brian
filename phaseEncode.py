@@ -19,13 +19,13 @@ index = 0
 for i, v in enumerate(binary):
     if v == '0': phaseShifts[i] = np.pi/2
     elif v == '1': phaseShifts[i] = -np.pi/2
+
 signal, sampling_rate = read_audio(AUDIO_FILE_NAME)
 f, t, Zxx = get_stft(signal, sampling_rate)
 
 for i in range(len(phaseShifts)):
     x = np.linspace(0, FREQ_0 * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
     x = np.sin(x + phaseShifts[i])
-    # print(x)
     signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
 
 # test = signal.tolist()

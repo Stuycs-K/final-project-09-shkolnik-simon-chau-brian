@@ -43,3 +43,11 @@ Updated the presentation to add more of my research and add more clarification o
 ### 5/27/2024
 
 Spent time researching and then creating phase encoding audio stegnography.
+
+### 5/27/2024
+
+Spent time setting up phase decode and then fixed a few bugs in phase encoder.
+
+### 5/29/2024
+
+Was not sure if phase encoder was working so just spent most trying to figure it out. Eventually scraped phaseDecoder to make a decodeer similar to Simon's decoder
