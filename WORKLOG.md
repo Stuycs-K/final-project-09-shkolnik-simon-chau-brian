@@ -56,3 +56,6 @@ Was not sure if phase encoder was working so just spent most trying to figure it
 
 Remade phase encoder and then created phase decoder using arcsin. Going to attempt to use fourier transform later.
 
+### 5/31/2024
+
+Finished phase decoder with help from Simon and improved our presentation
