@@ -23,7 +23,8 @@ The resulting frequencies will contain both the original audio along with the in
 
 How we encoded the Audio:
 
+We used two methods to encode audio, adding an inaudible frequency and performing a phase shift. With an inaudible frequency, we chose two high inaudible frequencies to use to represents 1s and 0s. Then, we converted the text we wanted to hide into bytes and then encode the bytes into audio for a certain timeframe. For exmaple, 1s became a frequency of 20000 and a small segment of the audio was encoded to have an additional frequency of 20000 hertz. This was repeated until the audio was all encoded. With a phase shift, the 1s and 0s become phase shifts that change the sign wave of a frequency. Similar to inaudible frequencies, the audio then has a phase shift of pi/2 for 0s and -pi/2 for 1s. By applying then applying the phase shift since audio is a sin wave, the audio will experience minimum change.
 
 How we decoded the Audio:
 
-
+To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s.
