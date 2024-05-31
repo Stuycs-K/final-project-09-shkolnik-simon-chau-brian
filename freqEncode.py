@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import audiofile
-from utils import read_audio, string_to_bin, get_stft, NPERSEG, FREQ_1, FREQ_0
+from utils import *
 import numpy as np
 import sys
 
@@ -18,7 +18,7 @@ print(f"Audio length: {len(signal) / sampling_rate:.2f}s")
 f, t, Zxx = get_stft(signal, sampling_rate)
 
 #encoding
-bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read())
+bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read().strip())
 print(f"Encoding {TEXT_FILE_NAME}")
 
 for i, v in enumerate(bin_data):
@@ -31,6 +31,9 @@ for i, v in enumerate(bin_data):
   x = np.sin(x)
 
   signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
+
+#f, t, Zxx = get_stft(signal, sampling_rate)
+#plot_spectrogram(f, t, Zxx)
 
 audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
 print(f"Wrote to modified_{AUDIO_FILE_NAME}")

@@ -44,7 +44,7 @@ def plot_spectrogram(f, t, Zxx):
   _, (ax1) = plt.subplots(1, 1)
 
   ax1.pcolorfast(t, f, np.abs(Zxx))
-  ax1.set_title("Spectrogram (before encoding)")
+  ax1.set_title("Spectrogram")
   ax1.set_ylabel("Frequency [Hz]")
   ax1.set_xlabel("Time [sec]")
 
