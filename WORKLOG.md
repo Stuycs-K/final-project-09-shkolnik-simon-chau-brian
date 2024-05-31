@@ -55,3 +55,11 @@ Spent time setting up phase decode and then fixed a few bugs in phase encoder.
 ### 5/29/2024
 
 Was not sure if phase encoder was working so just spent most trying to figure it out. Eventually scraped phaseDecoder to make a decodeer similar to Simon's decoder
+
+### 5/30/2024
+
+Remade phase encoder and then created phase decoder using arcsin. Going to attempt to use fourier transform later.
+
+### 5/31/2024
+
+Finished phase decoder with help from Simon and improved our presentation
