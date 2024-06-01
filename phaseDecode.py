@@ -3,8 +3,11 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import audiofile
 from utils import read_audio, string_to_bin, get_stft, NPERSEG, NFFT
+
+AUDIO_TO_DECODE =  sys.argv[1]
+
 NUM_BYTES = 21 #todo: calculate from audio
-signal, sampling_rate = read_audio("modified_sample_input.wav")
+signal, sampling_rate = read_audio(AUDIO_TO_DECODE)
 bitArray = np.empty(NUM_BYTES * 8)
 f, t, Zxx = get_stft(signal, sampling_rate)
 FREQ_1 = 1500
