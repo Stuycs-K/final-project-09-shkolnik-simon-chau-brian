@@ -3,9 +3,10 @@ from scipy.fft import fft, fftfreq
 import matplotlib.pyplot as plt
 import audiofile
 from utils import read_audio, string_to_bin, get_stft, NPERSEG, NFFT
+import sys
 
-AUDIO_FILE_NAME = "sample_input.wav"
-TEXT_FILE_NAME = "testfile.txt"
+AUDIO_FILE_NAME = sys.argv[1]
+TEXT_FILE_NAME = sys.argv[2]
 
 SECTION = (20, 40)
 AMPLITUDE = 0.2

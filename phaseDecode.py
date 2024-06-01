@@ -3,6 +3,7 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import audiofile
 from utils import read_audio, string_to_bin, get_stft, NPERSEG, NFFT
+import sys
 
 AUDIO_TO_DECODE =  sys.argv[1]
 
