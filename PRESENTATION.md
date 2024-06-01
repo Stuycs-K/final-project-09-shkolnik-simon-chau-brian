@@ -9,7 +9,7 @@ Short Time Fourier Transform(STFT) help compress this data by those frequency wa
 
 In short a Fourier transform takes an oscillating function like a sin wave and converts it into a frequency table which tells us which frequencies were orignally in the function. The problem with this is that it only gives us one snapshot meaning that we lose out on infomation about when.
 
-![Image of Fourier Transform](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/tree/main/Images/FFT-Time-Frequency-View-540.png)
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/FFT-Time-Frequency-View-540.png "Visual Example of Fourier Transform")
 
 
 ## How do we fix this?
