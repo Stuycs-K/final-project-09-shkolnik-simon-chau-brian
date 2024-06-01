@@ -9,7 +9,7 @@ AUDIO_FILE_NAME = sys.argv[1]
 TEXT_FILE_NAME = sys.argv[2]
 
 SECTION = (20, 40)
-AMPLITUDE = 0.2
+AMPLITUDE = 0.0001
 
 FREQ_0 = 1500
 string = open(TEXT_FILE_NAME, "rb").read()
