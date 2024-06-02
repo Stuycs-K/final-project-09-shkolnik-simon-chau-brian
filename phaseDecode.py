@@ -30,13 +30,16 @@ ax1.hlines(f[oneindex], t[0], t[-1])
 
 plt.show()
 """
-frequency = np.angle(Zxx[index] - Zxx2[index]) + .964 #To Fix Offset
-print(frequency.tolist()[:100])
+
+print(Zxx[index])
+
+amplified = Zxx[index] * 200
+frequency = np.angle(amplified) + 0.964 #To Fix Offset
+# print(frequency.tolist()[:100])
 bitArray = np.where(
     frequency > 0
     ,0,1
 )
-print(bitArray)
 
 decodedString = ""
 

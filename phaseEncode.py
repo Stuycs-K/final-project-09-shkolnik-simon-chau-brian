@@ -9,7 +9,7 @@ AUDIO_FILE_NAME = sys.argv[1]
 TEXT_FILE_NAME = sys.argv[2]
 
 SECTION = (20, 40)
-AMPLITUDE = 0.0001
+AMPLITUDE = 0.001
 
 FREQ_0 = 1500
 string = open(TEXT_FILE_NAME, "rb").read()
@@ -26,6 +26,7 @@ f, t, Zxx = get_stft(signal, sampling_rate)
 
 for i in range(len(phaseShifts)):
     x = np.linspace(0, FREQ_0 * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
+    print(np.sin(x + phaseShifts[i]))
     x = np.sin(x + phaseShifts[i])
     signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
 
