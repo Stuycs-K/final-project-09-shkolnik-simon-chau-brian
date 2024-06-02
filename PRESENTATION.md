@@ -33,7 +33,7 @@ We used two methods to encode audio, adding an inaudible frequency and performin
 
 To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. <br>
 
-## The Problems with Inaudible Frequencies
+### The Problems with Inaudible Frequencies
 
 Inaudible frequencies are easily found on spectrograms and thus an attacker can easily use a program like audacity and just see the encoded messages bytes. As a result, a determined attacker can easily break through this steganography method and find the hidden message.
 
@@ -47,7 +47,19 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
 
-## The Problems with Phase Shifts
+### The Problems with Phase Shifts
 
 The phase shifts has to be small enough so that it isn't obvious when another person hears it. But, as a result, the phase shifts isn't easily found unless you compare the modified audio to the original one. As a result, without the original audio you cannot uncover the message hidden by this steganography method.
 
+## How to use our tool
+Our tool is coded in python and contains four files: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**<br>
+To use steganography with inaudible frequencies you have to use **freqEncode.py** and **freqDecode.py**<br>
+To use steganography with phase shifts, use **phaseEncode.py** and **phaseDecode.py**<br>
+
+### Syntax:
+
+freqEncode:`python .\freqEncode.py AUDIO_FILE TEXT_FILE` <br>
+freqDecode:`python .\freqEncode.py AUDIO_FILE`<br><br> 
+
+phaseEncode: `python .\phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
+phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO ORIGINAL_AUDIO`<br>
