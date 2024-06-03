@@ -3,8 +3,9 @@
 ## Group Info
 Audio Stegnoraphy LLC
 Brian Chau and Simon Shkolnik
+
 ## Overview
-The project focuses on using Fourier Transformations in audio stegnoraphy. We encoded our secret file directly into the audio file but using Fourier Transformation, we can find the secret file
+The project focuses on using Fourier Transformations in audio stegnoraphy. We encoded our secret file directly into the audio file but using Fourier Transformation, we can find the secret file. In this project we have used two different ways of encoding our message, hiding the message in inaudible frequencies and using phase shifts to hide the audio.
 
 ## Instructions
 The library used in this program are:

@@ -67,3 +67,7 @@ Remade phase encoder and then created phase decoder using arcsin. Going to attem
 ### 5/31/2024
 
 Finished phase decoder with help from Simon and improved our presentation
+
+### 6/1/2024
+
+Continued to work on the presentation as well as working on making the encoding on the phaseEncode impossible to hear.

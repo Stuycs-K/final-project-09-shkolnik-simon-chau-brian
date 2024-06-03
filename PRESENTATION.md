@@ -1,30 +1,65 @@
 # This document is required.
 
-How are Audio and Fourier Transforms related: 
+## How are Audio and Fourier Transforms related: 
 
-Audio consists of many different frequencies which take up a lot of space. 
-Short Time Fourier Transform(STFT) help compress this data by those frequency waves into a table of frequency and times
+Audio files contain infomation about all the different frequencies, their amplitudes and other infomation abouut the audio. These audio files logically are extremely big in order to accomadate the data. Short Time Fourier Transform(STFT) help compress this data by those frequency waves into a table of frequency and times
 
-What are Fourier transforms:
+## What are Fourier transforms:
 
-In short a Fourier transform takes an oscillating function like a sin wave and converts it into a frequency table which tells us which frequencies were orignally in the function. The problem with this is that it only gives us one snapshot meaning that we lose out on infomation about when.
+In short a Fourier transform takes an oscillating function like a sin wave and converts it into a frequency table which tells us which frequencies were orignally in the function. The frequency table however condenses all of the audio given into one single graph. The problem with this is that it only gives us one snapshot meaning that we don't get infomation about when these frequencies occur in the audio.
 
-How do we fix this?
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/FFT-Time-Frequency-View-540.png "Visual Example of Fourier Transform")
+
+
+## How do we fix this?
 
 To solve this problem we just break up our function, or in this case audio in many smaller chunks and perform a Fourier transform on each part. With this Short Time Fourier Transform (STFT) we can see which frequencies were present at which time. 
 
 Computers use this to compress a very big wav file into a compartively small mp3 file by turning the audio into a table. Using an inverse function of the STFT we can transform this table to playing the frequencies that occur at a certain time.
 
-Fourier to encode Audio:
+## Some other types of Audio Steganography
 
-By converting audio into a fourier series through a transform we can get a 2d array of times and frequencies. 
-Using the table we can then encode the infomation into the highest frequencies and then convert it back into frequencies
-The resulting frequencies will contain both the original audio along with the infomation we want to encode in inaudible frequencies.
+### LSB Algorithim:
 
-How we encoded the Audio:
+Using the LSB algorithim is just like what we did before with image steganography. By changing the last signficant bit of chunks of audio we can have the infomation stored in the audio without it making a significant change to it.
 
-We used two methods to encode audio, adding an inaudible frequency and performing a phase shift. With an inaudible frequency, we chose two high inaudible frequencies to use to represents 1s and 0s. Then, we converted the text we wanted to hide into bytes and then encode the bytes into audio for a certain timeframe. For exmaple, 1s became a frequency of 20000 and a small segment of the audio was encoded to have an additional frequency of 20000 hertz. This was repeated until the audio was all encoded. With a phase shift, the 1s and 0s become phase shifts that change the sign wave of a frequency. Similar to inaudible frequencies, the audio then has a phase shift of pi/2 for 0s and -pi/2 for 1s. By applying then applying the phase shift since audio is a sin wave, the audio will experience minimum change.
+### Echo hiding
 
-How we decoded the Audio:
+The data is embed into the audio by creating an echo of the host signal. This echo is a resonace which is then added on top of this host audio which allows it to blend into the audio and makes it impossible for human ear to hear.
 
-To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s.
+## Encoding Audio Using Inaudible Frequencies
+
+We used two methods to encode audio, adding an inaudible frequency and performing a phase shift. With an inaudible frequency, we chose two high inaudible frequencies to use to represents 1s and 0s. Then, we converted the text we wanted to hide into bytes and then encode the bytes into audio for a certain timeframe. For exmaple, 1s became a frequency of 20000 and a small segment of the audio was encoded to have an additional frequency of 20000 hertz. <br>
+
+To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. <br>
+
+### The Problems with Inaudible Frequencies
+
+Inaudible frequencies are easily found on spectrograms and thus an attacker can easily use a program like audacity and just see the encoded messages bytes. As a result, a determined attacker can easily break through this steganography method and find the hidden message.
+
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg "Example of how this method looks on a spectrogram")
+
+## Encoding Audio using Phase Shifts:
+
+To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s.<br>
+
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/phaseShift.jpg "How Phase Shifts Work")
+
+With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
+
+### The Problems with Phase Shifts
+
+The phase shifts has to be small enough so that it isn't obvious when another person hears it. But, as a result, the phase shifts isn't easily found unless you compare the modified audio to the original one. As a result, without the original audio you cannot uncover the message hidden by this steganography method.
+
+## How to use our tool
+Our tool is coded in python and contains four files: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**<br>
+To use steganography with inaudible frequencies you have to use **freqEncode.py** and **freqDecode.py**<br>
+To use steganography with phase shifts, use **phaseEncode.py** and **phaseDecode.py**<br>
+
+### Syntax:
+
+freqEncode:`python .\freqEncode.py AUDIO_FILE TEXT_FILE` <br>
+freqDecode:`python .\freqEncode.py AUDIO_FILE`<br><br> 
+
+phaseEncode: `python .\phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
+phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO ORIGINAL_AUDIO`<br>
