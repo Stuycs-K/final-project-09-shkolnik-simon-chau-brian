@@ -7,7 +7,7 @@ import sys
 
 AUDIO_TO_DECODE =  sys.argv[1]
 
-NUM_BYTES = 23 #todo: calculate from audio
+NUM_BYTES = 21 #todo: calculate from audio
 signal, sampling_rate = read_audio(AUDIO_TO_DECODE)
 bitArray = np.empty(NUM_BYTES * 8)
 f, t, Zxx = get_stft(signal, sampling_rate)
