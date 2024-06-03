@@ -67,3 +67,16 @@ Finished phase decoder with help from Simon and improved our presentation
 ### 6/1/2024
 
 Continued to work on the presentation as well as working on making the encoding on the phaseEncode impossible to hear.
+
+### 6/2/2024
+
+Tried to work on the phase encoding but failed and then just worked on the presentation
+
+### References used
+https://numpy.org/doc/stable/reference/routines.math.html
+
+https://docs.scipy.org/doc/scipy/reference/fft.html
+
+https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
+
+https://medium.com/@achyuta.katta/audio-steganography-using-phase-encoding-d13f100380f2

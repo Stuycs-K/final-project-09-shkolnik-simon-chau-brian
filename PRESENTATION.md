@@ -2,7 +2,7 @@
 
 ## How are Audio and Fourier Transforms related: 
 
-Audio files contain infomation about all the different frequencies, their amplitudes and other infomation abouut the audio. These audio files logically are extremely big in order to accomadate the data. Short Time Fourier Transform(STFT) help compress this data by those frequency waves into a table of frequency and times
+Audio files contain infomation about all the different frequencies, their amplitudes and other infomation abouut the audio. These audio files logically are extremely big in order to accomadate the data. Short Time Fourier Transform(STFT) help compress this data by those turning the massive frequency waves into an array.
 
 ## What are Fourier transforms:
 
@@ -13,7 +13,7 @@ In short a Fourier transform takes an oscillating function like a sin wave and c
 
 ## How do we fix this?
 
-To solve this problem we just break up our function, or in this case audio in many smaller chunks and perform a Fourier transform on each part. With this Short Time Fourier Transform (STFT) we can see which frequencies were present at which time. 
+To solve this problem we just break up our function, or in this case audio, into many smaller chunks and perform a Fourier transform on each part. With this Short Time Fourier Transform (STFT) we can see which frequencies were present at which time. 
 
 Computers use this to compress a very big wav file into a compartively small mp3 file by turning the audio into a table. Using an inverse function of the STFT we can transform this table to playing the frequencies that occur at a certain time.
 
@@ -25,7 +25,7 @@ Using the LSB algorithim is just like what we did before with image steganograph
 
 ### Echo hiding
 
-The data is embed into the audio by creating an echo of the host signal. This echo is a resonace which is then added on top of this host audio which allows it to blend into the audio and makes it impossible for human ear to hear.
+The data is embed into the audio by creating an echo of the host audio. This echo is a resonace frequency which is then added on top of this host audio.The biggest benefit of echo hiding is that it is hard to detect on a spectrogram, but the audio can be changed by this method. This would cause the audio to sound a bit warped, cluing the listener in that there is something hidden. Therefore this method requires good quality audio.
 
 ## Encoding Audio Using Inaudible Frequencies
 
