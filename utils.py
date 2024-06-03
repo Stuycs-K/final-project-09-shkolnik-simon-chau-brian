@@ -3,8 +3,8 @@ import numpy as np
 from scipy.fft import fft, fftfreq
 import matplotlib.pyplot as plt
 
-FREQ_1 = 20000
-FREQ_0 = 19000
+FREQ_1 = 15500
+FREQ_0 = 15000
 
 NPERSEG = 4096
 NFFT = 8192
