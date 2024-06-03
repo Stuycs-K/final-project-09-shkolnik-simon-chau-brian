@@ -22,6 +22,10 @@ Fixed decode!!!, helped Brian with phase encoding, removed audio files from git 
 
 Created debug script and made files command line programs
 
+### 6/3/2024
+
+Made automatic length detection for frequency encode, started working on start sequence
+
 ## GROUP MEMBER 2
 
 ### 5/22/2024

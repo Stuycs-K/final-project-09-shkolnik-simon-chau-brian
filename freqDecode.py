@@ -7,8 +7,6 @@ import sys
 
 AUDIO_FILE_NAME = sys.argv[1]
 
-NUM_BYTES = 31 #todo: calculate from audio
-
 signal, sampling_rate = read_audio(AUDIO_FILE_NAME)
 print(f"Reading {AUDIO_FILE_NAME}")
 
@@ -28,18 +26,20 @@ zeroindex = [
     np.argmin(np.abs(f - (FREQ_0 + FREQ_SPREAD)))
 ]
 
+ONES = np.sum(Zxx[oneindex[0] : oneindex[1], :], axis=0)
+ZEROS = np.sum(Zxx[zeroindex[0] : zeroindex[1], :], axis=0)
+
+MIN_AMPLITUDE = .25 * np.max([np.max(ONES), np.max(ZEROS)])
+
+NUM_BYTES = 1 + np.max([
+  np.max(np.where(ONES > MIN_AMPLITUDE)),
+  np.max(np.where(ZEROS > MIN_AMPLITUDE))
+])
+NUM_BYTES //= 8
+
 #print(Zxx)
 
-bitArray = np.where(
-    np.sum(
-        Zxx[oneindex[0] : oneindex[1], :NUM_BYTES * 8 + 1],
-        axis=0
-    ) > np.sum(
-        Zxx[zeroindex[0] : zeroindex[1], :NUM_BYTES * 8 + 1],
-        axis=0
-    ),
-    1, 0
-)
+bitArray = np.where(ONES > ZEROS, 1, 0)[:NUM_BYTES * 8 + 1]
 
 """
 print(bitArray)
