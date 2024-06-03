@@ -39,10 +39,7 @@ NUM_BYTES //= 8
 
 #print(Zxx)
 
-bitArray = np.where(
-    ONES[:NUM_BYTES * 8 + 1] > ZEROS[:NUM_BYTES * 8 + 1],
-    1, 0
-)
+bitArray = np.where(ONES > ZEROS, 1, 0)[:NUM_BYTES * 8 + 1]
 
 """
 print(bitArray)
