@@ -80,6 +80,10 @@ Tried to work on the phase encoding but failed and then just worked on the prese
 
 Finished up phase encoding and then worked on the presentation. Also, spent time making sure the presentation was big enough that it filled the time we needed by doing multiple pratice runs of the presentation.  
 
+### 6/4/2024
+
+Added and adjusted Simon's code that checks for number of bytes into phase decoder and worked more on the presentation. 
+
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
 

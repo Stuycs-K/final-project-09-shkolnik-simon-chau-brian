@@ -49,7 +49,7 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 ### The Problems with Phase Shifts
 
-The phase shifts has to be small enough so that it isn't obvious when another person hears it. But, as a result, the phase shifts isn't easily found unless you compare the modified audio to the original one. As a result, without the original audio you cannot uncover the message hidden by this steganography method.
+The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram. A method that would be able to avoid these problems is 
 
 ## How to use our tool
 Our tool is coded in python and contains four files: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**<br>
