@@ -7,15 +7,18 @@ import sys
 
 AUDIO_TO_DECODE =  sys.argv[1]
 
-NUM_BYTES = 21 #todo: calculate from audio
 signal, sampling_rate = read_audio(AUDIO_TO_DECODE)
-bitArray = np.empty(NUM_BYTES * 8)
 f, t, Zxx = get_stft(signal, sampling_rate)
-FREQ_1 = 16000
+FREQ_1 = 20000
 index = np.argmin(np.abs(f - FREQ_1)),
+phases = Zxx[index]
+MIN_AMPLITUDE = .25 * np.max(np.max(phases))
+NUM_BYTES = 1 + np.max(np.where(phases > MIN_AMPLITUDE))
+NUM_BYTES //= 8 
+NUM_BYTES += 1
+bitArray = np.empty(NUM_BYTES * 8)
 
-frequency = np.angle(Zxx[index]) #To Fix Offset
-print(frequency.tolist()[:100])
+frequency = np.angle(phases)
 bitArray = np.where(
     frequency < 0
     ,0,1
@@ -32,4 +35,4 @@ for i in range(NUM_BYTES):
 
     decodedString += chr(current_byte)
 
-print(decodedString)
+print(f"Output: |{decodedString}|")

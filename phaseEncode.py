@@ -9,9 +9,9 @@ AUDIO_FILE_NAME = sys.argv[1]
 TEXT_FILE_NAME = sys.argv[2]
 
 SECTION = (20, 40)
-AMPLITUDE = 0.2
+AMPLITUDE = 0.01
 
-FREQ_0 = 16000
+FREQ_0 = 20000
 string = open(TEXT_FILE_NAME, "rb").read()
 binary = string_to_bin(string)
 stringlen = len(string) * 8
@@ -28,9 +28,5 @@ for i in range(len(phaseShifts)):
     x = np.linspace(0, FREQ_0 * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
     x = np.sin(x + phaseShifts[i])
     signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
-
-# test = signal.tolist()
-# for i in range(100):
-#     print(test[i])
 
 audiofile.write("modified_" + AUDIO_FILE_NAME.replace("mp3", "wav"), signal, sampling_rate)

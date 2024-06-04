@@ -76,6 +76,10 @@ Continued to work on the presentation as well as working on making the encoding 
 
 Tried to work on the phase encoding but failed and then just worked on the presentation
 
+### 6/3/2024
+
+Finished up phase encoding and then worked on the presentation. Also, spent time making sure the presentation was big enough that it filled the time we needed by doing multiple pratice runs of the presentation.  
+
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
 
@@ -84,3 +88,9 @@ https://docs.scipy.org/doc/scipy/reference/fft.html
 https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
 
 https://medium.com/@achyuta.katta/audio-steganography-using-phase-encoding-d13f100380f2
+
+https://www.youtube.com/watch?v=-Yxj3yfvY-4&t=587s
+
+https://www.youtube.com/watch?v=spUNpyF58BY
+
+https://www.youtube.com/watch?v=ZUi_jdOyxIQ&list=PL-wATfeyAMNqIee7cH3q1bh4QJFAaeNv0&index=13
