@@ -2,7 +2,7 @@
 
 ## How are Audio and Fourier Transforms related: 
 
-Audio files contain infomation about all the different frequencies, their amplitudes and other infomation abouut the audio. These audio files logically are extremely big in order to accomadate the data. Short Time Fourier Transform(STFT) help compress this data by those frequency waves into a table of frequency and times
+Audio files contain infomation about all the different frequencies, their amplitudes and other infomation abouut the audio. These audio files logically are extremely big in order to accomadate the data. Short Time Fourier Transform(STFT) help compress this data by those turning the massive frequency waves into an array.
 
 ## What are Fourier transforms:
 
@@ -13,7 +13,7 @@ In short a Fourier transform takes an oscillating function like a sin wave and c
 
 ## How do we fix this?
 
-To solve this problem we just break up our function, or in this case audio in many smaller chunks and perform a Fourier transform on each part. With this Short Time Fourier Transform (STFT) we can see which frequencies were present at which time. 
+To solve this problem we just break up our function, or in this case audio, into many smaller chunks and perform a Fourier transform on each part. With this Short Time Fourier Transform (STFT) we can see which frequencies were present at which time. 
 
 Computers use this to compress a very big wav file into a compartively small mp3 file by turning the audio into a table. Using an inverse function of the STFT we can transform this table to playing the frequencies that occur at a certain time.
 
@@ -25,7 +25,7 @@ Using the LSB algorithim is just like what we did before with image steganograph
 
 ### Echo hiding
 
-The data is embed into the audio by creating an echo of the host signal. This echo is a resonace which is then added on top of this host audio which allows it to blend into the audio and makes it impossible for human ear to hear.
+The data is embed into the audio by creating an echo of the host audio. This echo is a resonace frequency which is then added on top of this host audio.The biggest benefit of echo hiding is that it is hard to detect on a spectrogram, but the audio can be changed by this method. This would cause the audio to sound a bit warped, cluing the listener in that there is something hidden. Therefore this method requires good quality audio.
 
 ## Encoding Audio Using Inaudible Frequencies
 
@@ -41,15 +41,15 @@ Inaudible frequencies are easily found on spectrograms and thus an attacker can 
 
 ## Encoding Audio using Phase Shifts:
 
-To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s.<br>
+With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
 
 ![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/phaseShift.jpg "How Phase Shifts Work")
 
-With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
+To decode the audio we used fourier transforms. Using a short time fourier transforms, we can get all the times where our artifically added frequencies were found. Then, by checking and comparing the times of both, we can construct a bit array of 1s and 0s and convert it back to ASCII to get our hidden string. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s.<br>
 
 ### The Problems with Phase Shifts
 
-The phase shifts has to be small enough so that it isn't obvious when another person hears it. But, as a result, the phase shifts isn't easily found unless you compare the modified audio to the original one. As a result, without the original audio you cannot uncover the message hidden by this steganography method.
+The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram. A method that would be able to avoid these problems is 
 
 ## How to use our tool
 Our tool is coded in python and contains four files: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**<br>

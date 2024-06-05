@@ -6,38 +6,21 @@ from utils import read_audio, string_to_bin, get_stft, NPERSEG, NFFT
 import sys
 
 AUDIO_TO_DECODE =  sys.argv[1]
-ORIGINAL_AUDIO = sys.argv[2]
 
-NUM_BYTES = 21 #todo: calculate from audio
 signal, sampling_rate = read_audio(AUDIO_TO_DECODE)
-signal2, sampling_rate2 = read_audio(ORIGINAL_AUDIO)
-bitArray = np.empty(NUM_BYTES * 8)
 f, t, Zxx = get_stft(signal, sampling_rate)
-f2, t2, Zxx2 = get_stft(signal2, sampling_rate2)
-FREQ_1 = 1500
+FREQ_1 = 20000
 index = np.argmin(np.abs(f - FREQ_1)),
+phases = Zxx[index]
+MIN_AMPLITUDE = .25 * np.max(np.max(phases))
+NUM_BYTES = 1 + np.max(np.where(phases > MIN_AMPLITUDE))
+NUM_BYTES //= 8 
+NUM_BYTES += 1
+bitArray = np.empty(NUM_BYTES * 8)
 
-"""
-_, (ax1) = plt.subplots(1, 1)
-
-ax1.pcolorfast(t, f, np.abs(Zxx))
-ax1.set_title("Spectrogram (before encoding)")
-ax1.set_ylabel("Frequency [Hz]")
-ax1.set_xlabel("Time [sec]")
-
-ax1.vlines(t, FREQ_0, FREQ_1, "w")
-ax1.hlines(f[oneindex], t[0], t[-1])
-
-plt.show()
-"""
-
-print(Zxx[index])
-
-amplified = Zxx[index] * 200
-frequency = np.angle(Zxx[index] - Zxx2[index]) + 0.964 #To Fix Offset
-# print(frequency.tolist()[:100])
+frequency = np.angle(phases)
 bitArray = np.where(
-    frequency > 0
+    frequency < 0
     ,0,1
 )
 
@@ -52,4 +35,4 @@ for i in range(NUM_BYTES):
 
     decodedString += chr(current_byte)
 
-print(decodedString)
+print(f"Output: |{decodedString}|")
