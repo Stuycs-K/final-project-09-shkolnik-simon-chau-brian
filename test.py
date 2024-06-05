@@ -1,76 +1,57 @@
 import numpy as np
+from scipy.signal import stft
 from scipy.io import wavfile
+import matplotlib.pyplot as plt
+import audiofile
+from utils import string_to_bin
 
-def encode(pathToAudio,stringToEncode):
-  rate,audioData1 = wavfile.read(pathToAudio)
-  stringToEncode = stringToEncode.ljust(100, '~')
-  textLength = 8 * len(stringToEncode)
-  print(rate)
-  chunkSize = int(2 * 2 ** np.ceil(np.log2(2 * textLength)))
-  numberOfChunks = int(np.ceil(audioData1.shape[0] / chunkSize))
-  audioData = audioData1.copy()
+AUDIO_FILE_NAME = "sample_input.wav"
+TEXT_FILE_NAME = "testfile.txt"
 
-  #Breaking the Audio into chunks
-  if len(audioData1.shape) == 1:
-      audioData.resize(numberOfChunks * chunkSize, refcheck=False)
-      audioData = audioData[np.newaxis]
-  else:
-      audioData.resize((numberOfChunks * chunkSize, audioData.shape[1]), refcheck=False)
-      audioData = audioData.T
+SECTION = (20, 40)
+NPERSEG = 4096
+NFFT = 8192
 
-  chunks = audioData[0].reshape((numberOfChunks, chunkSize))
+string = open(TEXT_FILE_NAME, "rb").read()
+binary = string_to_bin(string)
+stringlen = len(string) * 8
+phaseShifts = np.empty(stringlen)
+index = 0
+for i, v in enumerate(binary):
+    if v == '0': phaseShifts[index] = np.pi/2
+    elif v == '1': phaseShifts[index] = -np.pi/2
+    index += 1
 
-  #Applying DFT on audio chunks
-  chunks = np.fft.fft(chunks)
-  magnitudes = np.abs(chunks)
-  phases = np.angle(chunks)
-  phaseDiff = np.diff(phases, axis=0)
 
-  textInBinary = np.ravel([[int(y) for y in format(ord(x), "08b")] for x in stringToEncode])
+sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
+signal = signal.copy()
+signal = np.transpose(signal)
+signal = signal.copy()
+try:
+    signal[1][0]
+    signal = sum(signal)
+except:
+    print("Only one channel")
+chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
+numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
 
-  # Convert message in binary to phase differences
-  textInPi = textInBinary.copy()
-  textInPi[textInPi == 0] = -1
-  textInPi = textInPi * -np.pi / 2
-  midChunk = chunkSize // 2
+signal.resize(numOfChuncks*chunkSize, refcheck=False)
+signal = signal[np.newaxis]
 
-  # Phase conversion
-  phases[0, midChunk - textLength: midChunk] = textInPi
-  phases[0, midChunk + 1: midChunk + 1 + textLength] = -textInPi[::-1]
+chunks = signal.reshape((numOfChuncks, chunkSize))
 
-  # Compute the phase matrix
-  for i in range(1, len(phases)):
-    phases[i] = phases[i - 1] + phaseDiff[i - 1]
-        
-  # Apply Inverse fourier trnasform after applying phase differences
-  chunks = (magnitudes * np.exp(1j * phases))
-  chunks = np.fft.ifft(chunks).real
-  audioData[0] = chunks.ravel().astype(np.int16)    
-  wavfile.write("output.wav", rate, audioData.T)
+chunks = np.fft.fft(chunks)
+magnitudes = np.abs(chunks)
+phases = np.angle(chunks)
+phaseDiff = np.diff(phases, axis=0)
+halfChunk = chunkSize//2
+phases[0, halfChunk - stringlen: halfChunk] = phaseShifts
+phases[0, halfChunk + 1: halfChunk + 1 + stringlen] = -phaseShifts[::-1]
 
-encode("sample_input.wav", "")
+for i in range(1, len(phases)):
+    phases[i] = phases[i-1] + phaseDiff[i-1]
 
-def decode(audioLocation):
-    rate, audioData = wavfile.read(audioLocation)
-    print(rate)
-    textLength = 800
-    blockLength = 2 * int(2 ** np.ceil(np.log2(2 * textLength)))
-    blockMid = blockLength // 2
-    print(blockLength, blockMid)
-    # Get header info
-    if len(audioData.shape) == 1:
-        code = audioData[:blockLength]
-    else:
-        code = audioData[:blockLength, 0]
-    print(code)
-    # Get the phase and convert it to binary
-    codePhases = np.angle(np.fft.fft(code))[blockMid - textLength:blockMid]
-    codeInBinary = (codePhases < 0).astype(np.int16)
-
-    # Convert into characters
-    codeInIntCode = codeInBinary.reshape((-1, 8)).dot(1 << np.arange(8 - 1, -1, -1))
-    
-    # Combine characters to original text
-    return "".join(np.char.mod("%c", codeInIntCode)).replace("~", "")
-
-print(decode("output.wav"))
+chunks = (magnitudes * np.exp(1j * phases))
+chunks = np.fft.ifft(chunks).real
+signal[0] = chunks.ravel().astype(np.int16) 
+wavfile.write("modified_" + AUDIO_FILE_NAME, sampling_rate, signal.T)
