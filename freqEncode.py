@@ -8,7 +8,7 @@ import sys
 AUDIO_FILE_NAME = sys.argv[1]
 TEXT_FILE_NAME = sys.argv[2]
 
-AMPLITUDE = .2
+AMPLITUDE = .005
 
 signal, sampling_rate = read_audio(AUDIO_FILE_NAME)
 print(f"Reading {AUDIO_FILE_NAME}")
@@ -17,12 +17,25 @@ print(f"Audio length: {len(signal) / sampling_rate:.2f}s")
 
 f, t, Zxx = get_stft(signal, sampling_rate)
 
+ONES = get_freq_list(Zxx, f, FREQ_1 - FREQ_SPREAD, FREQ_1 + FREQ_SPREAD)
+ZEROS = get_freq_list(Zxx, f, FREQ_0 - FREQ_SPREAD, FREQ_0 + FREQ_SPREAD)
+
+#SKIPS = get_freq_list(Zxx, f, FREQ_S - FREQ_SPREAD, FREQ_S + FREQ_SPREAD)
+
 #encoding
 bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read().strip())
 print(f"Encoding {TEXT_FILE_NAME}")
 
-for i, v in enumerate(bin_data):
-  if v == "1":
+#TODO SEPERATE POINTERS
+i = 0
+while i < len(bin_data):
+  SKIP_FRAME = False
+  v = bin_data[i]
+
+  if max(ONES[i], ZEROS[i]) > 1:
+    freq = FREQ_S
+    SKIP_FRAME = True
+  elif v == "1":
     freq = FREQ_1
   else:
     freq = FREQ_0
@@ -31,9 +44,12 @@ for i, v in enumerate(bin_data):
   x = np.sin(x)
 
   signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
+  
+  if not SKIP_FRAME:
+    i += 1
 
 #f, t, Zxx = get_stft(signal, sampling_rate)
-#plot_spectrogram(f, t, Zxx)
+#plot_spectrogram(f, t, np.abs(Zxx))
 
 audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
 print(f"Wrote to modified_{AUDIO_FILE_NAME}")

@@ -3,9 +3,10 @@ import numpy as np
 from scipy.fft import fft, fftfreq
 import matplotlib.pyplot as plt
 
-FREQ_1 = 16000
-FREQ_0 = 15000
-FREQ_S = 15500
+FREQ_1 = 9000
+FREQ_0 = 8000
+FREQ_S = 8500
+FREQ_SPREAD = 50
 
 NPERSEG = 4096
 NFFT = 8192
@@ -26,6 +27,9 @@ def read_audio(filename):
 
   return signal, sampling_rate
 
+def get_freq_list(Zxx, f, fmin, fmax):
+    return np.sum(np.abs(Zxx[np.argmin(np.abs(f - fmin)) : np.argmin(np.abs(f - fmax)), :]), axis=0)
+
 def get_stft(signal, sampling_rate):
   t_signal = np.resize(signal, (len(signal) // NPERSEG) * NPERSEG)
   t_signal = np.reshape(t_signal, (-1, NPERSEG))
@@ -41,10 +45,14 @@ def get_stft(signal, sampling_rate):
 
   return f, t, Zxx
 
-def plot_spectrogram(f, t, Zxx):
+def plot_spectrogram(f, t, Zxx, minf = None, maxf = None):
+  if minf or maxf:
+    Zxx = Zxx[np.argmin(np.abs(f - minf)) : np.argmin(np.abs(f - maxf)), :]
+    f = f[np.argmin(np.abs(f - minf)) : np.argmin(np.abs(f - maxf))]
+
   _, (ax1) = plt.subplots(1, 1)
 
-  ax1.pcolorfast(t, f, np.abs(Zxx))
+  ax1.pcolorfast(t, f, Zxx)
   ax1.set_title("Spectrogram")
   ax1.set_ylabel("Frequency [Hz]")
   ax1.set_xlabel("Time [sec]")

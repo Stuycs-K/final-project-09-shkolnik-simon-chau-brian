@@ -13,28 +13,18 @@ print(f"Reading {AUDIO_FILE_NAME}")
 f, t, Zxx = get_stft(signal, sampling_rate)
 Zxx = np.absolute(Zxx)
 
-#plot_spectrogram(f, t, Zxx)
+plot_spectrogram(f, t, np.abs(Zxx), 7000, 10000)
+#plot_spectrogram(f, t, (np.abs(Zxx)))
 
-FREQ_SPREAD = 50
-
-oneindex = [
-    np.argmin(np.abs(f - (FREQ_1 - FREQ_SPREAD))),
-    np.argmin(np.abs(f - (FREQ_1 + FREQ_SPREAD)))
-]
-zeroindex = [
-    np.argmin(np.abs(f - (FREQ_0 - FREQ_SPREAD))),
-    np.argmin(np.abs(f - (FREQ_0 + FREQ_SPREAD)))
-]
-
-ONES = np.sum(Zxx[oneindex[0] : oneindex[1], :], axis=0)
-ZEROS = np.sum(Zxx[zeroindex[0] : zeroindex[1], :], axis=0)
+ONES = get_freq_list(Zxx, f, FREQ_1 - FREQ_SPREAD, FREQ_1 + FREQ_SPREAD)
+ZEROS = get_freq_list(Zxx, f, FREQ_0 - FREQ_SPREAD, FREQ_0 + FREQ_SPREAD)
+SKIPS = get_freq_list(Zxx, f, FREQ_S - FREQ_SPREAD, FREQ_S + FREQ_SPREAD)
 
 MIN_AMPLITUDE = .25 * np.max([np.max(ONES), np.max(ZEROS)])
 
-NUM_BYTES = 1 + np.max([
-  np.max(np.where(ONES > MIN_AMPLITUDE)),
-  np.max(np.where(ZEROS > MIN_AMPLITUDE))
-])
+BYTES = np.union1d(np.where(ONES > MIN_AMPLITUDE), np.where(ZEROS > MIN_AMPLITUDE))
+
+NUM_BYTES = np.where(np.diff(BYTES) > 1)[0][0]
 NUM_BYTES //= 8
 
 #print(Zxx)

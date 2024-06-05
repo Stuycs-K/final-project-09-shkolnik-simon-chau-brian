@@ -9,4 +9,4 @@ echo Expecting "%STRING%"
 python freqDecode.py modified_ImperialMarch60.wav
 
 del _temp.txt
-del modified_ImperialMarch60.wav
+//del modified_ImperialMarch60.wav
