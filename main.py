@@ -29,35 +29,35 @@ ax1.set_xlabel("Time [sec]")
 ax1.vlines(t, FREQ_0, FREQ_1, "w")
 
 #encoding
-bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read())
+# bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read())
 
-for i, v in enumerate(bin_data):
-  if v == "1":
-    freq = FREQ_1
-  else:
-    freq = FREQ_0
+# for i, v in enumerate(bin_data):
+#   if v == "1":
+#     freq = FREQ_1
+#   else:
+#     freq = FREQ_0
 
-  x = np.linspace(0, freq * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
-  x = np.sin(x)
+#   x = np.linspace(0, freq * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
+#   x = np.sin(x)
 
-  signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
+#   signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
   
-  if v == "1":
-    ax2.vlines((i * NPERSEG) / sampling_rate, freq + 10, freq + 50, "g")
-    ax2.vlines(((i + 1) * NPERSEG) / sampling_rate, freq + 10, freq + 50, "r")
-  else:
-    ax2.vlines((i * NPERSEG) / sampling_rate, freq - 50, freq - 10, "g")
-    ax2.vlines(((i + 1) * NPERSEG) / sampling_rate, freq - 50, freq - 10, "r")
+#   if v == "1":
+#     ax2.vlines((i * NPERSEG) / sampling_rate, freq + 10, freq + 50, "g")
+#     ax2.vlines(((i + 1) * NPERSEG) / sampling_rate, freq + 10, freq + 50, "r")
+#   else:
+#     ax2.vlines((i * NPERSEG) / sampling_rate, freq - 50, freq - 10, "g")
+#     ax2.vlines(((i + 1) * NPERSEG) / sampling_rate, freq - 50, freq - 10, "r")
 
-  ax2.hlines(freq, t[i], t[i + 1], "r")
+#   ax2.hlines(freq, t[i], t[i + 1], "r")
 
-f, t, Zxx = get_stft(signal, sampling_rate)
-ax2.pcolorfast(t, f, np.abs(Zxx))
-ax2.set_title("Spectrogram (after encoding)")
-ax2.set_ylabel("Frequency [Hz]")
-ax2.set_xlabel("Time [sec]")
-ax2.vlines(t, FREQ_0, FREQ_1, "w")
+# f, t, Zxx = get_stft(signal, sampling_rate)
+# ax2.pcolorfast(t, f, np.abs(Zxx))
+# ax2.set_title("Spectrogram (after encoding)")
+# ax2.set_ylabel("Frequency [Hz]")
+# ax2.set_xlabel("Time [sec]")
+# ax2.vlines(t, FREQ_0, FREQ_1, "w")
 
-audiofile.write("modified_" + AUDIO_FILE_NAME.replace("mp3", "wav"), signal, sampling_rate)
+# audiofile.write("modified_" + AUDIO_FILE_NAME.replace("mp3", "wav"), signal, sampling_rate)
 
 plt.show()

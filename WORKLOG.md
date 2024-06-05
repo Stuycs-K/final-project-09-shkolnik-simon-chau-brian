@@ -82,7 +82,11 @@ Finished up phase encoding and then worked on the presentation. Also, spent time
 
 ### 6/4/2024
 
-Added and adjusted Simon's code that checks for number of bytes into phase decoder and worked more on the presentation. 
+Added and adjusted Simon's code that checks for number of bytes into phase decoder and worked more on the presentation.
+
+### 6/5/2024
+
+Reviving my old version of phase encoder and decoder to see if it works.
 
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
