@@ -88,6 +88,10 @@ Added and adjusted Simon's code that checks for number of bytes into phase decod
 
 Reviving my old version of phase encoder and decoder to see if it works.
 
+### 6/6/2024
+
+I revived my old version but it only works with one specific audio clip
+
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
 

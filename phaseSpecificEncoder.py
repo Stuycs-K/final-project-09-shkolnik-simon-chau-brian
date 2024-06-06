@@ -45,8 +45,8 @@ if len(signal.shape) == 1:
   signal.resize(numOfChuncks * chunkSize, refcheck=False)
   signal = signal[np.newaxis]
 else:
-    signal.resize((numOfChuncks * chunkSize, signal.shape[1]), refcheck=False)
-    signal = signal.T
+  signal.resize((numOfChuncks * chunkSize, signal.shape[1]), refcheck=False)
+  signal = signal.T
 
 chunks = signal.reshape((numOfChuncks, chunkSize))
 

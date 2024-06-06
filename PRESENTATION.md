@@ -50,10 +50,18 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram.
 
+## Encoding Audio using Phase Shifts(Without inaudible frequencies):
+
+With the original phase shifts, we had to use one inaudible frequency then encode the different phases. Without the inaudible frequency, we need to to do a fourier transform. But, we need chunks of audio to break up and then perform the data analysis on, so first we do that. Next, do a fourier transform on each part. Then, using the array of bits from before, apply the phase shift to the angle of each fourier transform and finally convert it back.<br>
+
+
+To decode the audio do a fourier transform on the chunks again and extract out the angles. Now the upside is that it will be harder to see because it isn't encoded in an inaudible frequency which makes it really easy to spot
+
+### The problem with this version:
+This version of phase shifts requires audio that is high enough quality. Otherwise, the phase shift won't encode the data properly so our version of phase shifts without inaudible frequencies only uses one audio file to encode
+
 ## How to use our tool
-Our tool is coded in python and contains four files: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**<br>
-To use steganography with inaudible frequencies you have to use **freqEncode.py** and **freqDecode.py**<br>
-To use steganography with phase shifts, use **phaseEncode.py** and **phaseDecode.py**<br>
+Our tool is coded in python and contains six files that you can use: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**, **phaseSpecificEncoder.py**, **phaseSpecificDecoder.py**<br>
 
 ### Syntax:
 
@@ -62,3 +70,6 @@ freqDecode:`python .\freqEncode.py AUDIO_FILE`<br><br>
 
 phaseEncode: `python .\phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
 phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO ORIGINAL_AUDIO`<br>
+
+phaseSpecificDecoder: `python .\phaseSpecificEncoder.py`<br>
+phaseSpecificEncoder: `python .\phaseSpecificDecoder.py`
