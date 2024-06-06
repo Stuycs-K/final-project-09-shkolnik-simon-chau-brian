@@ -22,12 +22,10 @@ index = 0
 for x in string:
     val = ord(x)
     binaryArray = np.empty(8) * 0
-    print(format(ord(x), "08b"))
     for y in range(8):
         if(val & pow(2,y)):
             binaryArray[y] = int(1)
     binaryArray = binaryArray[::-1]
-    print(binaryArray)
     strInBin[index] = binaryArray
     index += 1
 strInBin = np.ravel(strInBin)
