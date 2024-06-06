@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
 
-AUDIO_FILE_NAME = "sample_input.wav"
+AUDIO_FILE_NAME = "brilliant.wav"
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)
@@ -13,30 +13,42 @@ NPERSEG = 4096
 NFFT = 8192
 
 string = open(TEXT_FILE_NAME, "rb").read()
-binary = string_to_bin(string)
+string = string.decode('utf-8').ljust(100, '~')
 stringlen = len(string) * 8
 phaseShifts = np.empty(stringlen)
-index = 0
-for i, v in enumerate(binary):
-    if v == '0': phaseShifts[index] = np.pi/2
-    elif v == '1': phaseShifts[index] = -np.pi/2
-    index += 1
+strInBin = np.empty([len(string), 8]) * 0
 
+index = 0
+for x in string:
+    val = ord(x)
+    binaryArray = np.empty(8) * 0
+    print(format(ord(x), "08b"))
+    for y in range(8):
+        if(val & pow(2,y)):
+            binaryArray[y] = int(1)
+    binaryArray = binaryArray[::-1]
+    print(binaryArray)
+    strInBin[index] = binaryArray
+    index += 1
+strInBin = np.ravel(strInBin)
+
+phaseShifts = strInBin.copy()
+phaseShifts[phaseShifts == 0] = -1
+phaseShifts = phaseShifts * -np.pi / 2
 
 sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
 signal = np.transpose(signal)
 signal = signal.copy()
-try:
-    signal[1][0]
-    signal = sum(signal)
-except:
-    print("Only one channel")
 chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
 numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
 
-signal.resize(numOfChuncks*chunkSize, refcheck=False)
-signal = signal[np.newaxis]
+if len(signal.shape) == 1:
+  signal.resize(numOfChuncks * chunkSize, refcheck=False)
+  signal = signal[np.newaxis]
+else:
+    signal.resize((numOfChuncks * chunkSize, signal.shape[1]), refcheck=False)
+    signal = signal.T
 
 chunks = signal.reshape((numOfChuncks, chunkSize))
 
@@ -44,6 +56,7 @@ chunks = np.fft.fft(chunks)
 magnitudes = np.abs(chunks)
 phases = np.angle(chunks)
 phaseDiff = np.diff(phases, axis=0)
+
 halfChunk = chunkSize//2
 phases[0, halfChunk - stringlen: halfChunk] = phaseShifts
 phases[0, halfChunk + 1: halfChunk + 1 + stringlen] = -phaseShifts[::-1]

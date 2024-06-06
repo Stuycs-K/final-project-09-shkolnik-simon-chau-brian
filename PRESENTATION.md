@@ -14,7 +14,6 @@ In short a Fourier transform takes an oscillating function like a sin wave and c
 ## How do we fix this?
 
 To solve this problem we just break up our function, or in this case audio, into many smaller chunks and perform a Fourier transform on each part. With this Short Time Fourier Transform (STFT) we can see which frequencies were present at which time. 
-
 Computers use this to compress a very big wav file into a compartively small mp3 file by turning the audio into a table. Using an inverse function of the STFT we can transform this table to playing the frequencies that occur at a certain time.
 
 ## Some other types of Audio Steganography
@@ -41,7 +40,7 @@ Inaudible frequencies are easily found on spectrograms and thus an attacker can 
 
 ## Encoding Audio using Phase Shifts:
 
-With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
+Using phase shift, we don't use two inaudible frequncies to represent bits but just use a single frequency. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
 
 ![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/phaseShift.jpg "How Phase Shifts Work")
 
@@ -49,7 +48,7 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 ### The Problems with Phase Shifts
 
-The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram. A method that would be able to avoid these problems is 
+The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram.
 
 ## How to use our tool
 Our tool is coded in python and contains four files: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**<br>
