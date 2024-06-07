@@ -4,8 +4,9 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
+import sys
 
-AUDIO_FILE_NAME = "brilliant.wav"
+AUDIO_FILE_NAME = sys.argv[1]
 TEXT_FILE_NAME = "testfile.txt"
 
 SECTION = (20, 40)

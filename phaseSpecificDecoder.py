@@ -1,8 +1,9 @@
 import numpy as np
 import scipy as sp
 import scipy.io.wavfile as wavfile
+import sys
 
-MODIFIED_FILE = "modified_brilliant.wav"
+MODIFIED_FILE = sys.argv[1]
 
 sampling_rate, signal = wavfile.read(MODIFIED_FILE)
 stringlen = 800
@@ -16,6 +17,8 @@ except:
 
 phases = np.angle(np.fft.fft(encoded))[halfChunk - stringlen: halfChunk]
 binary = np.empty(phases.size)
+phases = phases + 0.5
+print(phases[:100])
 for x in range(phases.size):
     if phases[x] < 0:
         binary[x] = 1
@@ -34,6 +37,7 @@ for x in range(binary.size):
         break
     else:
         ints[x] = test
+    print(ints[x])
 string = ""
 for x in ints:
     string += chr(int(x))
