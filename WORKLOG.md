@@ -92,6 +92,10 @@ Reviving my old version of phase encoder and decoder to see if it works.
 
 I revived my old version but it only works with one specific audio clip
 
+### 6/7/2024
+
+Realized it only worked with one audio file but failed to find the problem
+
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
 
