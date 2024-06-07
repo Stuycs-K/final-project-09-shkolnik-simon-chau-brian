@@ -19,20 +19,19 @@ f, t, Zxx = get_stft(signal, sampling_rate)
 
 ONES = get_freq_list(Zxx, f, FREQ_1 - FREQ_SPREAD, FREQ_1 + FREQ_SPREAD)
 ZEROS = get_freq_list(Zxx, f, FREQ_0 - FREQ_SPREAD, FREQ_0 + FREQ_SPREAD)
-
-#SKIPS = get_freq_list(Zxx, f, FREQ_S - FREQ_SPREAD, FREQ_S + FREQ_SPREAD)
+SKIPS = get_freq_list(Zxx, f, FREQ_S - FREQ_SPREAD, FREQ_S + FREQ_SPREAD)
 
 #encoding
 bin_data = string_to_bin(open(TEXT_FILE_NAME, "rb").read().strip())
 print(f"Encoding {TEXT_FILE_NAME}")
 
 #TODO SEPERATE POINTERS
-i = 0
-while i < len(bin_data):
+i_data = 0
+for i_frame in range(len(bin_data)):
   SKIP_FRAME = False
-  v = bin_data[i]
+  v = bin_data[i_data]
 
-  if max(ONES[i], ZEROS[i]) > 1:
+  if max(ONES[i_frame], ZEROS[i_frame], SKIPS[i_frame]) > 1: #TODO less arbitrary threshold
     freq = FREQ_S
     SKIP_FRAME = True
   elif v == "1":
@@ -43,13 +42,14 @@ while i < len(bin_data):
   x = np.linspace(0, freq * 2 * np.pi * (NPERSEG * .5 / sampling_rate), int(NPERSEG * .5))
   x = np.sin(x)
 
-  signal[int((i + .25) * NPERSEG) : int((i + .75) * NPERSEG)] += x * AMPLITUDE
+  signal[int((i_frame + .25) * NPERSEG) : int((i_frame + .75) * NPERSEG)] += x * AMPLITUDE
   
   if not SKIP_FRAME:
-    i += 1
+    i_data += 1
 
-#f, t, Zxx = get_stft(signal, sampling_rate)
+f, t, Zxx = get_stft(signal, sampling_rate)
 #plot_spectrogram(f, t, np.abs(Zxx))
+#plot_spectrogram(f, t, np.abs(Zxx), 7000, 10000)
 
 audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
 print(f"Wrote to modified_{AUDIO_FILE_NAME}")
