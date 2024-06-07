@@ -28,7 +28,7 @@ def read_audio(filename):
   return signal, sampling_rate
 
 def get_freq_list(Zxx, f, fmin, fmax):
-    return np.sum(np.abs(Zxx[np.argmin(np.abs(f - fmin)) : np.argmin(np.abs(f - fmax)), :]), axis=0)
+    return np.max(np.abs(Zxx[np.argmin(np.abs(f - fmin)) : np.argmin(np.abs(f - fmax)), :]), axis=0)
 
 def get_stft(signal, sampling_rate):
   t_signal = np.resize(signal, (len(signal) // NPERSEG) * NPERSEG)
