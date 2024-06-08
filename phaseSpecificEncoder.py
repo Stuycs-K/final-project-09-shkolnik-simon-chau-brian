@@ -50,14 +50,13 @@ else:
   signal = signal.T
 
 chunks = signal.reshape((numOfChuncks, chunkSize))
-print(chunks[0])
+
 chunks = np.fft.fft(chunks)
 magnitudes = np.abs(chunks)
 phases = np.angle(chunks)
 phaseDiff = np.diff(phases, axis=0)
 
 testArray = chunks
-# print(chunks[0])
 halfChunk = chunkSize//2
 phases[0, halfChunk - stringlen: halfChunk] = phaseShifts
 phases[0, halfChunk + 1: halfChunk + 1 + stringlen] = -phaseShifts[::-1]
@@ -66,10 +65,7 @@ for i in range(1, len(phases)):
     phases[i] = phases[i-1] + phaseDiff[i-1]
 
 chunks = (magnitudes * np.exp(1j * phases))
-
-# print(np.angle(testArray - chunks[0]))
-
 chunks = np.fft.ifft(chunks).real
-print(chunks[0])
-signal[0] = chunks.ravel().astype(np.int16) 
+print(signal[0][halfChunk - stringlen + 1].dtype)
+signal[0] = chunks.ravel().astype(np.int16)
 wavfile.write("modified_" + AUDIO_FILE_NAME, sampling_rate, signal.T)
