@@ -38,7 +38,7 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 Inaudible frequencies are easily found on spectrograms and thus an attacker can easily use a program like audacity and just see the encoded messages bytes. As a result, a determined attacker can easily break through this steganography method and find the hidden message.
 
-<img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="1600" height="1400">
+<img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="1400" height="1225">
 
 ## Encoding Audio using Phase Shifts:
 
@@ -58,14 +58,13 @@ With the original phase shifts, we had to use one inaudible frequency then encod
 
 ![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/diagram.png "Diagram of phase shift algorithm")
 
-To decode the audio do a fourier transform on the chunks again and extract out the angles. Now the upside is that it will be harder to see because it isn't encoded in an inaudible frequency which makes it really easy to spot
+### The problem with this version:
+This version uses a fourier transform in the encoding phase. Thus, the conversion from the fourier series back into a wav lead to a lossy conversion and possibly corrupt the data. Also if the nagnitude of the wav file is initially zero, the data will also be lost. As a result, most audio files won't work with the phase shifts algorithm here. 
 
 ## How to detect steganography
 
 Generally you would use a spectrogram as they allow you to visualize the audio waves which makes it exceptionally easy to find any hiddden audio. Another thing that can help detect steganography is artifacts of the steganography. Due to the complexity of audio steganography some buzzing or a faint noise can remain which will hint at the presence of a hidden message.<br>
 
-### The problem with this version:
-This version uses a fourier transform in the encoding phase. Thus, the conversion from the fourier series back into a wav lead to a lossy conversion and possibly corrupt the data. Also if the nagnitude of the wav file is initially zero, the data will also be lost. As a result, most audio files won't work with the phase shifts algorithm here. 
 
 ## How to use our tool
 Our tool is coded in python and contains six files that you can use: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**, **phaseSpecificEncoder.py**, **phaseSpecificDecoder.py**<br>
@@ -73,10 +72,10 @@ Our tool is coded in python and contains six files that you can use: **freqEncod
 ### Syntax:
 
 freqEncode:`python .\freqEncode.py AUDIO_FILE TEXT_FILE` <br>
-freqDecode:`python .\freqEncode.py AUDIO_FILE`<br><br> 
+freqDecode:`python .\freqEncode.py MODIFIED_AUDIO`<br><br> 
 
 phaseEncode: `python .\phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
-phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO ORIGINAL_AUDIO`<br>
+phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO`<br>
 
-phaseSpecificDecoder: `python .\phaseSpecificEncoder.py`<br>
-phaseSpecificEncoder: `python .\phaseSpecificDecoder.py`
+phaseSpecificDecoder: `python .\phaseSpecificEncoder.py AUDIO_FILE TEXT_FILE`<br>
+phaseSpecificEncoder: `python .\phaseSpecificDecoder.py MODIFIED_AUDIO`
