@@ -96,6 +96,11 @@ I revived my old version but it only works with one specific audio clip
 
 Realized it only worked with one audio file but failed to find the problem
 
+### 6/8/2024
+
+Spent more time testing and realized that the error was just a part of using different data types.
+Updated presentation to reflect this discovery.
+
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
 
@@ -110,3 +115,5 @@ https://www.youtube.com/watch?v=-Yxj3yfvY-4&t=587s
 https://www.youtube.com/watch?v=spUNpyF58BY
 
 https://www.youtube.com/watch?v=ZUi_jdOyxIQ&list=PL-wATfeyAMNqIee7cH3q1bh4QJFAaeNv0&index=13
+
+https://svenruppert.com/2024/04/17/audio-steganography-in-more-detail/

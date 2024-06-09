@@ -20,11 +20,13 @@ Computers use this to compress a very big wav file into a compartively small mp3
 
 ### LSB Algorithim:
 
-Using the LSB algorithim is just like what we did before with image steganography. By changing the last signficant bit of chunks of audio we can have the infomation stored in the audio without it making a significant change to it.
+Using the LSB algorithim is just like what we did before with image steganography. By changing the last signficant bit of chunks of audio we can have the infomation stored in the audio without it making a significant change to it. The benefit is the simplicity of this method along with the small, imperceptible change of the audio to the human ear.  
 
 ### Echo hiding
 
-The data is embed into the audio by creating an echo of the host audio. This echo is a resonace frequency which is then added on top of this host audio.The biggest benefit of echo hiding is that it is hard to detect on a spectrogram, but the audio can be changed by this method. This would cause the audio to sound a bit warped, cluing the listener in that there is something hidden. Therefore this method requires good quality audio.
+The data is embed into the audio by creating an echo of the host audio. There are four parts to echo hiding, creating the echo, embedding the data into the audio, shorting delays between the audio and echo to 1-3 miliseconds and turning the signal with echo back into an audio stream. The benefit is that it can be hard to hear if done properly as it takes advantage of how we precieve echos. Echo hiding can also be compressed and withstand some audio degradation<br> 
+
+The biggest problem but the audio is changed by this method. This might cause the audio to sound different especially is the delays are not within the 1-3 milisecond range, cluing the listener in that there is something hidden. Therefore this method requires good quality audio.
 
 ## Encoding Audio Using Inaudible Frequencies
 
@@ -36,7 +38,7 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 Inaudible frequencies are easily found on spectrograms and thus an attacker can easily use a program like audacity and just see the encoded messages bytes. As a result, a determined attacker can easily break through this steganography method and find the hidden message.
 
-<img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="200" height="500">
+<img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="400" height="600">
 
 ## Encoding Audio using Phase Shifts:
 
@@ -58,8 +60,12 @@ With the original phase shifts, we had to use one inaudible frequency then encod
 
 To decode the audio do a fourier transform on the chunks again and extract out the angles. Now the upside is that it will be harder to see because it isn't encoded in an inaudible frequency which makes it really easy to spot
 
+## How to detect steganography
+
+Generally you would use a spectrogram as they allow you to visualize the audio waves which makes it exceptionally easy to find any hiddden audio. Another thing that can help detect steganography is artifacts of the steganography. Due to the complexity of audio steganography some buzzing or a faint noise can remain which will hint at the presence of a hidden message.<br>
+
 ### The problem with this version:
-This version of phase shifts requires audio that is high enough quality. Otherwise, the phase shift won't encode the data properly so our version of phase shifts without inaudible frequencies only uses one audio file to encode
+This version uses a fourier transform in the encoding phase. Thus, the conversion from the fourier series back into a wav lead to a lossy conversion and possibly corrupt the data. Also if the nagnitude of the wav file is initially zero, the data will also be lost. As a result, most audio files won't work with the phase shifts algorithm here. 
 
 ## How to use our tool
 Our tool is coded in python and contains six files that you can use: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**, **phaseSpecificEncoder.py**, **phaseSpecificDecoder.py**<br>

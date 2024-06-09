@@ -37,8 +37,6 @@ phaseShifts = phaseShifts * -np.pi / 2
 
 sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
-signal = np.transpose(signal)
-signal = signal.copy()
 chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
 numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
 
@@ -66,6 +64,17 @@ for i in range(1, len(phases)):
 
 chunks = (magnitudes * np.exp(1j * phases))
 chunks = np.fft.ifft(chunks).real
-print(signal[0][halfChunk - stringlen + 1].dtype)
+
+# print(chunk[0])
+
 signal[0] = chunks.ravel().astype(np.int16)
-wavfile.write("modified_" + AUDIO_FILE_NAME, sampling_rate, signal.T)
+
+# print(signal[0][:chunkSize])
+
+# print(np.angle(chunk[halfChunk - stringlen: halfChunk]))
+
+# print(magnitudes[0])
+# # chunk = signal[0, :chunkSize]
+# # print(np.angle(np.fft.fft(chunk))[halfChunk - stringlen: halfChunk])
+
+audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)
