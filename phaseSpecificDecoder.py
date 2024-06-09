@@ -16,16 +16,6 @@ try:
 except:
     encoded = signal[:chunkSize]
 
-if len(signal.shape) == 1:
-  signal.resize(numOfChuncks * chunkSize, refcheck=False)
-  signal = signal[np.newaxis]
-else:
-  signal.resize((numOfChuncks * chunkSize, signal.shape[1]), refcheck=False)
-  signal = signal.T
-
-chunks = signal.reshape((numOfChuncks, chunkSize))
-print(chunks[0])
-
 chunk = np.fft.fft(encoded)
 
 phases = np.angle(np.fft.fft(encoded))[halfChunk - stringlen: halfChunk]

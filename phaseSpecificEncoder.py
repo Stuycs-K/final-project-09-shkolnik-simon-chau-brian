@@ -7,7 +7,7 @@ from utils import string_to_bin
 import sys
 
 AUDIO_FILE_NAME = sys.argv[1]
-TEXT_FILE_NAME = "testfile.txt"
+TEXT_FILE_NAME = sys.argv[2]
 
 SECTION = (20, 40)
 NPERSEG = 4096
@@ -37,17 +37,19 @@ phaseShifts = phaseShifts * -np.pi / 2
 
 sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
-chunkSize = int(2 * 2**np.ceil(np.log2(2*stringlen)))
-numOfChuncks = int(np.ceil(signal.shape[0]/chunkSize))
+chunkSize = int(2 * 2 ** np.ceil(np.log2(2 * stringlen)))
+numOfChuncks = int(np.ceil(signal.shape[0] / chunkSize))
 
+# checks shape to change data to 1 axis
 if len(signal.shape) == 1:
   signal.resize(numOfChuncks * chunkSize, refcheck=False)
   signal = signal[np.newaxis]
 else:
   signal.resize((numOfChuncks * chunkSize, signal.shape[1]), refcheck=False)
+  print(signal.shape)
   signal = signal.T
 
-chunks = signal.reshape((numOfChuncks, chunkSize))
+chunks = signal[0].reshape((numOfChuncks, chunkSize))
 
 chunks = np.fft.fft(chunks)
 magnitudes = np.abs(chunks)
@@ -74,7 +76,7 @@ signal[0] = chunks.ravel().astype(np.int16)
 # print(np.angle(chunk[halfChunk - stringlen: halfChunk]))
 
 # print(magnitudes[0])
-# # chunk = signal[0, :chunkSize]
-# # print(np.angle(np.fft.fft(chunk))[halfChunk - stringlen: halfChunk])
+# chunk = signal[0, :chunkSize]
+# print(np.angle(np.fft.fft(chunk))[halfChunk - stringlen: halfChunk])
 
 audiofile.write("modified_" + AUDIO_FILE_NAME, signal, sampling_rate)

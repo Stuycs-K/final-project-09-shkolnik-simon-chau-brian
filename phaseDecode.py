@@ -15,7 +15,6 @@ phases = Zxx[index]
 MIN_AMPLITUDE = .25 * np.max(np.max(phases))
 NUM_BYTES = 1 + np.max(np.where(phases > MIN_AMPLITUDE))
 NUM_BYTES //= 8 
-NUM_BYTES += 1
 bitArray = np.empty(NUM_BYTES * 8)
 
 frequency = np.angle(phases)

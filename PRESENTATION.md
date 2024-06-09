@@ -38,7 +38,7 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 Inaudible frequencies are easily found on spectrograms and thus an attacker can easily use a program like audacity and just see the encoded messages bytes. As a result, a determined attacker can easily break through this steganography method and find the hidden message.
 
-<img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="400" height="600">
+<img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="1600" height="1400">
 
 ## Encoding Audio using Phase Shifts:
 
