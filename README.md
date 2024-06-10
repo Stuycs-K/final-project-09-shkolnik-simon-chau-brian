@@ -9,7 +9,11 @@ The project focuses on using Fourier Transforms in audio steganography. We can a
 
 ## Usage
 `python <freqEncode.py / phaseEncode.py> <audio> <file with text to encode>`
+
 `python <freqDecode.py / phaseDecode.py> <modified_audio>`
+
+## Presentation
+[PRESENTATION.md](PRESENTATION.md)
 
 ## Requirements
 The library used in this program are:
