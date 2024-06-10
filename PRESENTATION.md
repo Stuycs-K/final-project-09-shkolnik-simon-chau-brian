@@ -1,5 +1,3 @@
-# This document is required.
-
 ## Audio Steganography
 Audio steganography refers to when some data is concealed inside an audio file. With audio steganography, we can hide data allowing us to send the data through public channels securely. 
 
