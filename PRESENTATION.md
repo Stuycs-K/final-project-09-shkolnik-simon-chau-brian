@@ -52,7 +52,7 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 ### The Problems with Phase Shifts
 
-The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram, though as a single continuous frequency it might not be as obvious that it's hidden data. Also, it's more difficult to decode as most spectrograms don't show phase shifts so the attacker would have to make a custom decoder.
+The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram, though as a single continuous frequency it might not be as obvious that it's hidden data.
 
 ### Syntax
 
