@@ -59,9 +59,18 @@ The phase shifts has a similar issue to the two inaudible frequencies methods as
 phaseEncode: `python ./phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
 phaseEncode: `python ./phaseDecode.py MODIFIED_AUDIO`<br>
 
+## Encoding Audio using Phase Shifts(Without inaudible frequencies):
+
+With the original phase shifts, we had to use one inaudible frequency then encode the different phases. Without the inaudible frequency, we need to to do a fourier transform. But, we need chunks of audio to break up and then perform the data analysis on, so first we do that. Next, do a fourier transform on each part. Then, using the array of bits from before, apply the phase shift to the angle of each fourier transform and finally convert it back.<br>
+
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/diagram.png "Diagram of phase shift algorithm")
+
+### The problem with this version:
+This version uses a fourier transform in the encoding phase. Thus, the conversion from the fourier series back into a wav lead to a lossy conversion and possibly corrupt the data. Also if the nagnitude of the wav file is initially zero, the data will also be lost. As a result, most audio files won't work with the phase shifts algorithm here. 
+
 ### Syntax
-phaseSpecificDecoder: `python ./phaseSpecificEncoder.py AUDIO_FILE TEXT_FILE`<br>
-phaseSpecificEncoder: `python ./phaseSpecificDecoder.py MODIFIED_AUDIO`
+phaseSpecificDecoder: `python .\phaseSpecificEncoder.py AUDIO_FILE TEXT_FILE`<br>
+phaseSpecificEncoder: `python .\phaseSpecificDecoder.py MODIFIED_AUDIO`
 
 ## How to detect steganography
 
