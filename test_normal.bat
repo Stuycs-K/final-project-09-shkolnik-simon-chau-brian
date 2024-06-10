@@ -1,4 +1,4 @@
-set STRING=sample test text 123456 \$(!
+set STRING=sample test text 123456
 
 echo %STRING% > _temp.txt
 

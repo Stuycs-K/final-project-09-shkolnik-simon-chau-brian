@@ -3,8 +3,8 @@ import numpy as np
 from scipy.fft import fft, fftfreq
 import matplotlib.pyplot as plt
 
-FREQ_1 = 9000
-FREQ_0 = 8000
+FREQ_1 = 19500
+FREQ_0 = 19000
 FREQ_S = 8500
 FREQ_SPREAD = 50
 
