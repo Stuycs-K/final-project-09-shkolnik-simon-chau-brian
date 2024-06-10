@@ -14,6 +14,7 @@ The project focuses on using Fourier Transforms in audio steganography. We can a
 
 ## Presentation
 [PRESENTATION.md](PRESENTATION.md)
+
 [Video presentation](https://www.youtube.com/watch?v=chCDIFemaw8)
 
 ## Requirements
