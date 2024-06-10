@@ -17,6 +17,9 @@ The project focuses on using Fourier Transforms in audio steganography. We can a
 
 [Video presentation](https://www.youtube.com/watch?v=chCDIFemaw8)
 
+## Tryhackme
+https://tryhackme.com/jr/audiosteganography
+
 ## Requirements
 The library used in this program are:
 - **numpy**: vector math
