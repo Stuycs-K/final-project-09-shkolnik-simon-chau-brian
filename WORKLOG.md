@@ -6,6 +6,10 @@
 
 Implemented audio reading & basic spectrogram
 
+### 5/23/2024
+
+Worked on basic encoding
+
 ### 5/24/2024
 
 Added audio encoding, cleaned up main.py, should be ready to start working on decoding
@@ -25,6 +29,15 @@ Created debug script and made files command line programs
 ### 6/3/2024
 
 Made automatic length detection for frequency encode, started working on start sequence
+
+### 6/5/2024
+
+Started working on skipping algorithm
+
+### 6/7/2024
+
+Continued working on skipping algorithm
+
 
 ## GROUP MEMBER 2
 
