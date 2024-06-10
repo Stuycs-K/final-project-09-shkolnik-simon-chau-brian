@@ -16,7 +16,9 @@ NFFT = 8192
 string = open(TEXT_FILE_NAME, "rb").read()
 string = string.decode('utf-8').ljust(100, '~')
 stringlen = len(string) * 8
-phaseShifts = np.empty(stringlen)
+# hammingBlocks = stringlen//12
+# length = stringlen + hammingBlocks * 4
+phaseShifts = np.empty(stringlen) * 0
 strInBin = np.empty([len(string), 8]) * 0
 
 index = 0
@@ -34,6 +36,25 @@ strInBin = np.ravel(strInBin)
 phaseShifts = strInBin.copy()
 phaseShifts[phaseShifts == 0] = -1
 phaseShifts = phaseShifts * -np.pi / 2
+# print(strInBin[12:24])
+# for x in range(hammingBlocks):
+#   bitsUsed = 0
+#   xorValue = 0
+#   for y in range(16):
+#     if y == 0 or (y and (y & (y - 1))):
+#       phaseShifts[y + x * 16] = strInBin[bitsUsed + x * 12]
+#       if phaseShifts[y + x * 16] == 1:
+#         xorValue = xorValue ^ y
+#       bitsUsed += 1
+#   if xorValue & 1 == 1:
+#     phaseShifts[1 + x * 16] = 1
+#   if xorValue & 2 == 2:
+#     phaseShifts[2 + x * 16] = 1
+#   if xorValue & 4 == 4:
+#     phaseShifts[4 + x * 16] = 1
+#   if xorValue & 8 == 8:
+#     phaseShifts[8 + x * 16] = 1
+# print(phaseShifts[16:32])
 
 sampling_rate, signal = wavfile.read(AUDIO_FILE_NAME)
 signal = signal.copy()
@@ -71,7 +92,7 @@ chunks = np.fft.ifft(chunks).real
 
 signal[0] = chunks.ravel().astype(np.int16)
 
-# print(signal[0][:chunkSize])
+# print(signal[:chunkSize])
 
 # print(np.angle(chunk[halfChunk - stringlen: halfChunk]))
 

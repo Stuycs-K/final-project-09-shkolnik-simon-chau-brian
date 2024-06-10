@@ -2,6 +2,8 @@ __pycache__/
 **/*.mp3
 **/*.wav
 !ImperialMarch60.wav
+!brilliant.wav
+!sample.wav
 
 # Prerequisites
 *.d

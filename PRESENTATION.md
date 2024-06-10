@@ -1,5 +1,8 @@
 # This document is required.
 
+## Audio Steganography
+Audio steganography refers to when some data is concealed inside an audio file. With audio steganography, we can hide data allowing us to send the data through public channels securely. 
+
 ## How are Audio and Fourier Transforms related: 
 
 Audio files contain infomation about all the different frequencies, their amplitudes and other infomation abouut the audio. These audio files logically are extremely big in order to accomadate the data. Short Time Fourier Transform(STFT) help compress this data by those turning the massive frequency waves into an array.
@@ -26,6 +29,8 @@ Using the LSB algorithim is just like what we did before with image steganograph
 
 The data is embed into the audio by creating an echo of the host audio. There are four parts to echo hiding, creating the echo, embedding the data into the audio, shorting delays between the audio and echo to 1-3 miliseconds and turning the signal with echo back into an audio stream. The benefit is that it can be hard to hear if done properly as it takes advantage of how we precieve echos. Echo hiding can also be compressed and withstand some audio degradation<br> 
 
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/echo.png "Diagram of the echo")
+
 The biggest problem but the audio is changed by this method. This might cause the audio to sound different especially is the delays are not within the 1-3 milisecond range, cluing the listener in that there is something hidden. Therefore this method requires good quality audio.
 
 ## Encoding Audio Using Inaudible Frequencies
@@ -40,6 +45,11 @@ Inaudible frequencies are easily found on spectrograms and thus an attacker can 
 
 <img src = "https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/spectrogramExample.jpg" width="1400" height="1225">
 
+### Syntax:
+
+freqEncode:`python .\freqEncode.py AUDIO_FILE TEXT_FILE` <br>
+freqDecode:`python .\freqEncode.py MODIFIED_AUDIO`<br><br> 
+
 ## Encoding Audio using Phase Shifts:
 
 Using phase shift, we don't use two inaudible frequncies to represent bits but just use a single frequency. With phase shifts, instead of checking the frequencies the angle of the fourier transform can be used to find the phase shifts. The reason a fourier series can have an angle is that the fourier series is a set of complex numbers. By using the real and imaginary part, the fourier series can have an angle for each value. The angle is also slightly shifted from the pi/2 and -pi/2 values so we apply a correcting shift and then by seeing the phases shifts we can get the 1s and 0s. <br>
@@ -52,6 +62,11 @@ To decode the audio we used fourier transforms. Using a short time fourier trans
 
 The phase shifts has a similar issue to the two inaudible frequencies methods as it is still easily visible on a spectrogram.
 
+### Syntax
+
+phaseEncode: `python .\phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
+phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO`<br>
+
 ## Encoding Audio using Phase Shifts(Without inaudible frequencies):
 
 With the original phase shifts, we had to use one inaudible frequency then encode the different phases. Without the inaudible frequency, we need to to do a fourier transform. But, we need chunks of audio to break up and then perform the data analysis on, so first we do that. Next, do a fourier transform on each part. Then, using the array of bits from before, apply the phase shift to the angle of each fourier transform and finally convert it back.<br>
@@ -61,21 +76,10 @@ With the original phase shifts, we had to use one inaudible frequency then encod
 ### The problem with this version:
 This version uses a fourier transform in the encoding phase. Thus, the conversion from the fourier series back into a wav lead to a lossy conversion and possibly corrupt the data. Also if the nagnitude of the wav file is initially zero, the data will also be lost. As a result, most audio files won't work with the phase shifts algorithm here. 
 
+### Syntax
+phaseSpecificDecoder: `python .\phaseSpecificEncoder.py AUDIO_FILE TEXT_FILE`<br>
+phaseSpecificEncoder: `python .\phaseSpecificDecoder.py MODIFIED_AUDIO`
+
 ## How to detect steganography
 
 Generally you would use a spectrogram as they allow you to visualize the audio waves which makes it exceptionally easy to find any hiddden audio. Another thing that can help detect steganography is artifacts of the steganography. Due to the complexity of audio steganography some buzzing or a faint noise can remain which will hint at the presence of a hidden message.<br>
-
-
-## How to use our tool
-Our tool is coded in python and contains six files that you can use: **freqEncode.py**, **freqDecode.py**, **phaseEncode.py**, **phaseDecode.py**, **phaseSpecificEncoder.py**, **phaseSpecificDecoder.py**<br>
-
-### Syntax:
-
-freqEncode:`python .\freqEncode.py AUDIO_FILE TEXT_FILE` <br>
-freqDecode:`python .\freqEncode.py MODIFIED_AUDIO`<br><br> 
-
-phaseEncode: `python .\phaseEncode.py AUDIO_FILE TEXT_FILE`<br>
-phaseEncode: `python .\phaseDecode.py MODIFIED_AUDIO`<br>
-
-phaseSpecificDecoder: `python .\phaseSpecificEncoder.py AUDIO_FILE TEXT_FILE`<br>
-phaseSpecificEncoder: `python .\phaseSpecificDecoder.py MODIFIED_AUDIO`
