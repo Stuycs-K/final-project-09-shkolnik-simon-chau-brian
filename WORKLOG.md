@@ -117,3 +117,6 @@ https://www.youtube.com/watch?v=spUNpyF58BY
 https://www.youtube.com/watch?v=ZUi_jdOyxIQ&list=PL-wATfeyAMNqIee7cH3q1bh4QJFAaeNv0&index=13
 
 https://svenruppert.com/2024/04/17/audio-steganography-in-more-detail/
+
+https://www.researchgate.net/figure/Echo-data-hiding-adjustable-parameters-16_fig9_257879537
+
