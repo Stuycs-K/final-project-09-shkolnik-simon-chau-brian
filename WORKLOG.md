@@ -101,6 +101,10 @@ Realized it only worked with one audio file but failed to find the problem
 Spent more time testing and realized that the error was just a part of using different data types.
 Updated presentation to reflect this discovery.
 
+### 6/9/2024
+
+Finished up presentation and tested out using hamming codes but couldn't get it to work
+
 ### References used
 https://numpy.org/doc/stable/reference/routines.math.html
 

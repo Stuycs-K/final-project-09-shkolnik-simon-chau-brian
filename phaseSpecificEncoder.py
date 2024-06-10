@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 import audiofile
 from utils import string_to_bin
 import sys
+import warnings 
 
+warnings.filterwarnings('ignore') 
 AUDIO_FILE_NAME = sys.argv[1]
 TEXT_FILE_NAME = sys.argv[2]
 
@@ -46,7 +48,6 @@ if len(signal.shape) == 1:
   signal = signal[np.newaxis]
 else:
   signal.resize((numOfChuncks * chunkSize, signal.shape[1]), refcheck=False)
-  print(signal.shape)
   signal = signal.T
 
 chunks = signal[0].reshape((numOfChuncks, chunkSize))
