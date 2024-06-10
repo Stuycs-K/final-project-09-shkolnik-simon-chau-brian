@@ -25,6 +25,9 @@ Computers use this to compress a very big wav file into a compartively small mp3
 
 Using the LSB algorithim is just like what we did before with image steganography. By changing the last signficant bit of chunks of audio we can have the infomation stored in the audio without it making a significant change to it. The benefit is the simplicity of this method along with the small, imperceptible change of the audio to the human ear.  
 
+![alt text](https://github.com/Stuycs-K/final-project-09-shkolnik-simon-chau-brian/blob/main/Images/lsb.png "Diagram of the LSB")
+
+
 ### Echo hiding
 
 The data is embed into the audio by creating an echo of the host audio. There are four parts to echo hiding, creating the echo, embedding the data into the audio, shorting delays between the audio and echo to 1-3 miliseconds and turning the signal with echo back into an audio stream. The benefit is that it can be hard to hear if done properly as it takes advantage of how we precieve echos. Echo hiding can also be compressed and withstand some audio degradation<br> 
